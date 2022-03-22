@@ -1,7 +1,7 @@
 name: "personal-website"
 output_dir: "."
 navbar:
-  title: "Personal Website"
+  title: "Harpeth River & Mill Creek E. coli Modeling"
   left:
     - text: "Home"
       href: index.html
