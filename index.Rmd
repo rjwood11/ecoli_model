@@ -5,7 +5,10 @@ title: "Harpeth River & Mill Creek E. coli Modeling"
 ``` {r, echo=FALSE}
 
 time = Sys.time()
+time = as.POSIXct(format(time),tz="America/Chicago")
 
 ```
 
-The current time is `r time`
+The last update happened at `r time` Central Time.
+
+
