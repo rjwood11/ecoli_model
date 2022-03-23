@@ -1,6 +1,13 @@
 ---
 title: "Harpeth River & Mill Creek E. coli Modeling"
 ---
+``` {r, setup, include=FALSE}
+library(tidyverse)
+library(osmdata) 
+library(ggmap)
+library(dataRetrieval)
+```
+
 
 ``` {r, echo=FALSE}
 
@@ -11,4 +18,67 @@ time = as.POSIXct(format(time),tz="America/Chicago")
 
 The last update happened at `r time` Central Time.
 
+
+``` {r, echo=FALSE}
+
+big_streets = getbb("Nashville Tennessee") %>%
+  opq() %>%
+  add_osm_feature(key = "highway", 
+                  value = c("motorway", "primary", "primary_link")) %>%
+  osmdata_sf()
+
+# med_streets = getbb("Nashville Tennessee") %>%
+#   opq() %>%
+#   add_osm_feature(key = "highway", 
+#                   value = c("secondary", "tertiary", "secondary_link", "tertiary_link")) %>%
+#   osmdata_sf()
+
+river = getbb("Nashville Tennessee") %>%
+  opq()%>%
+  add_osm_feature(key = "waterway", value = "river") %>%
+  osmdata_sf()
+
+```
+
+
+``` {r, echo=FALSE}
+
+sites_millcreek = c("03431060", "03430550", "03431083")
+sites_harpeth = c("0343233905", "03432400", "034324146", "03434500", "03433500")
+sites = readNWISsite(siteNumbers=c(sites_millcreek, sites_harpeth))
+site_coords = sites[c(1:3, 7:8)]
+
+
+```
+
+
+``` {r, echo=FALSE}
+
+ggplot() +
+  geom_sf(data = river$osm_lines,
+          inherit.aes = FALSE,
+          color = "steelblue",
+          size = .8,
+          alpha = .3) +
+  # geom_sf(data = med_streets$osm_lines,
+  #         inherit.aes = FALSE,
+  #         color = "black",
+  #         size = .3,
+  #         alpha = .5) +
+  geom_sf(data = big_streets$osm_lines,
+          inherit.aes = FALSE,
+          color = "black",
+          size = .5,
+          alpha = .6) +
+  coord_sf(xlim = c(-87.15477, -86.51559), 
+           ylim = c(35.86778, 36.40550),
+           expand = FALSE)  +
+  geom_point(data=site_coords, aes(x=dec_long_va, y=dec_lat_va), size = 2, alpha=.8,
+             fill="red", pch=21, inherit.aes = F) +
+  theme_void() +
+  theme(plot.title = element_text(size = 20, face="bold", hjust=.5),
+        plot.subtitle = element_text(size = 8, hjust=.5, margin=margin(2, 0, 5, 0))) +
+  labs(title = "Nashville", subtitle = "USGS River Gauge Sites") 
+
+```
 
