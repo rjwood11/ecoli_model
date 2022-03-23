@@ -30,7 +30,7 @@ jobs:
 
       - name: Query dependencies
         run: |
-          system('sudo apt install libcurl4-openssl-dev libssl-dev libxml2-dev')
+          system('sudo apt install libcurl4-openssl-dev libssl-dev libxml2-dev libproj-dev libgdal-dev')
           install.packages('remotes')
           install.packages('sessioninfo')
           install.packages('dataRetrieval')
