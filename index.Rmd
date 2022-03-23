@@ -1,7 +1,7 @@
 ---
 title: "Vanderbilt's new logo looks terrible"
 ---
-``` {r, setup, include=FALSE}
+``` {r, setup, include=FALSE, warning=FALSE}
 library(tidyverse)
 library(osmdata) 
 library(ggmap)
@@ -11,8 +11,7 @@ library(dataRetrieval)
 
 ``` {r, echo=FALSE}
 
-time = Sys.time()
-time = as.POSIXct(time, tz="CST6CDT", usetz=TRUE)
+time = lubridate::with_tz(Sys.time(), "CST6CDT")
 
 ```
 
