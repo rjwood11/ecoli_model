@@ -9,7 +9,7 @@ library(dataRetrieval)
 ```
 
 
-``` {r, echo=FALSE}
+``` {r, echo=FALSE, warning=FALSE}
 
 time = lubridate::with_tz(Sys.time(), "CST6CDT")
 
@@ -18,7 +18,7 @@ time = lubridate::with_tz(Sys.time(), "CST6CDT")
 The last update happened at `r time` Central Time.
 
 
-``` {r, echo=FALSE}
+``` {r, echo=FALSE, warning=FALSE}
 
 big_streets = getbb("Nashville Tennessee") %>%
   opq() %>%
@@ -40,7 +40,7 @@ river = getbb("Nashville Tennessee") %>%
 ```
 
 
-``` {r, echo=FALSE}
+``` {r, echo=FALSE, warning=FALSE}
 
 sites_millcreek = c("03431060", "03430550", "03431083")
 sites_harpeth = c("0343233905", "03432400", "034324146", "03434500", "03433500")
@@ -51,7 +51,7 @@ site_coords = sites[c(1:3, 7:8)]
 ```
 
 
-``` {r, echo=FALSE}
+``` {r, echo=FALSE, warning=FALSE}
 
 ggplot() +
   geom_sf(data = river$osm_lines,
