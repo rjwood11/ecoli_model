@@ -12,7 +12,7 @@ library(dataRetrieval)
 ``` {r, echo=FALSE}
 
 time = Sys.time()
-time = as.POSIXct(time,tz="CST6CDT")
+time = as.POSIXct(time, tz="CST6CDT", usetz=TRUE)
 
 ```
 
