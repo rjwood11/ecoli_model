@@ -44,15 +44,73 @@ river = getbb("Nashville Tennessee") %>%
 
 sites_millcreek = c("03431060", "03430550", "03431083")
 sites_harpeth = c("0343233905", "03432400", "034324146", "03434500", "03433500")
+parameter_codes = c("00060", "00300")
+
+
 sites = readNWISsite(siteNumbers=c(sites_millcreek, sites_harpeth))
 site_coords = sites[c(1:3, 7:8)]
+data.table::setnames(site_coords, old = c("dec_lat_va"),
+                     new = c("Latitude"))
+data.table::setnames(site_coords, old = c("dec_long_va"),
+                     new = c("Longitude"))
+
+# Just 0343233905 to demonstrate concept
+
+today_data = readNWISdata(sites='0343233905',parameterCd=parameter_codes,
+                      startDate=Sys.Date()-1,endDate=Sys.Date(),service="iv")
+
+# discharge often unavailable, annoying.
+# todo: figure out a way to approximate, average over prior year values on the same day?
+
+# data.table::setnames(today_data, old = c("X_00060_00000"), new = c("river_flow_cfs"))
+
+data.table::setnames(today_data, old = c("X_00300_00000"), new = c("dissolved_oxygen"))
+
+library(XML)
+url = "https://www.wunderground.com/dashboard/pws/KTNFRANK19?cm_ven=localwx_pwsdash"
+source = readLines(url, encoding = "UTF-8")
+parsed_doc = htmlParse(source, encoding = "UTF-8")
+precip = xpathSApply(parsed_doc, path = '/html/body/app-root/app-dashboard/one-column-layout/
+                     wu-header/sidenav/mat-sidenav-container/mat-sidenav-content/div/section/
+                     section[1]/div[1]/div/section/div/div/div/div[2]/div/lib-tile-current-conditions/
+                     div/div[2]/div/div[4]/div[5]/div/div[2]/lib-display-unit/span/span[1]', xmlValue)
+
+
+
+
+# E.coli = SQUAREROOT(PRCP) + river.flow.cfs + SQUARE(DO) + SQUARE(SINDOY)
+# 
+# PRCP = daily precipitation
+# river.flow.cfs = Discharge column in the USGS data
+# SINDOY = sin(day of the year; 1-365)
+# DO = Dissolved Oxygen
+
+# I have it set up to only do 0343233905 as a demo, todo: reorganize data structure from data pulling and
+# merge with the site_coords table so the mutate statement will calc all stations and leave no data as null
+
+site_coords = site_coords %>% mutate(ecoli = if_else(site_no == '0343233905', sqrt(as.numeric(precip)) + today_data$dissolved_oxygen[1]^2 + sin(as.numeric(strftime(time, format = "%j")))^2, NULL))
+
+# assign color values based on conditional ecoli values
+
+site_coords = site_coords %>% mutate(color = ifelse(ecoli > 250, "red", 
+                                                    ifelse(ecoli < 250 & ecoli > 220, "yellow", "green")))
+
+# Set NA values to gray
+
+site_coords$color[is.na(site_coords$color)] = 'gray'
+
 
 
 ```
 
 
+
+
 ``` {r, echo=FALSE, warning=FALSE}
 
+library(plotly)
+
+map = {
 ggplot() +
   geom_sf(data = river$osm_lines,
           inherit.aes = FALSE,
@@ -72,14 +130,17 @@ ggplot() +
   coord_sf(xlim = c(-87.15477, -86.51559), 
            ylim = c(35.86778, 36.40550),
            expand = FALSE)  +
-  geom_point(data=site_coords, aes(x=dec_long_va, y=dec_lat_va), size = 2, alpha=.8,
-             fill="red", pch=21, inherit.aes = F) +
+  geom_point(data=site_coords, aes(x=Longitude, y=Latitude, text = paste(station_nm, '\n', 'USGS Station', site_no), color = color), size = 2, alpha=.8, inherit.aes = F) +
+  scale_colour_identity() +
   theme_void() +
   theme(plot.title = element_text(size = 20, face="bold", hjust=.5),
         plot.subtitle = element_text(size = 8, hjust=.5, margin=margin(2, 0, 5, 0))) +
   labs(title = "Nashville", subtitle = "USGS River Gauge Sites") +
   labs(caption=str_c("Last update: ", time,  " Central Time.")) +
   theme(legend.position="bottom")
+}
+  
+plotly::ggplotly(map)
 
 ```
 
