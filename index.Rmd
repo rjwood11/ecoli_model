@@ -18,7 +18,7 @@ time = lubridate::with_tz(Sys.time(), "CST6CDT")
 The last update happened at `r time` Central Time.
 
 
-``` {r, echo=FALSE, warning=FALSE}
+``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
 big_streets = getbb("Nashville Tennessee") %>%
   opq() %>%
@@ -40,7 +40,7 @@ river = getbb("Nashville Tennessee") %>%
 ```
 
 
-``` {r, echo=FALSE, warning=FALSE}
+``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
 sites_millcreek = c("03431060", "03430550", "03431083")
 sites_harpeth = c("0343233905", "03432400", "034324146", "03434500", "03433500")
@@ -106,7 +106,7 @@ site_coords$color[is.na(site_coords$color)] = 'gray'
 
 
 
-``` {r, echo=FALSE, warning=FALSE}
+``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
 library(plotly)
 
