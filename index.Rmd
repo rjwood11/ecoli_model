@@ -106,7 +106,7 @@ site_coords$color[is.na(site_coords$color)] = 'gray'
 
 
 
-``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 
 library(plotly)
 
