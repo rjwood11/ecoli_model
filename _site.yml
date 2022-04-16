@@ -1,7 +1,7 @@
-name: "personal-website"
+name: "Nashville Waterways E. coli Modeling"
 output_dir: "."
 navbar:
-  title: "Harpeth River & Mill Creek E. coli Modeling"
+  title: "Nashville Waterways E. coli Predictive Modeling Project"
   left:
     - text: "Home"
       href: index.html
