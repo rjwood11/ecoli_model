@@ -1,5 +1,9 @@
 # Nashville Waterways E. coli Predictive Modeling Project
 
+The deployed website with the model can be found here: http://ecoli.rayoung.org/index.html
+
+## Introduction
+
 This project currently provides a modelled prediction of waterborne harmful microbial concentration at one river site in Nashville, with plans to expand the model to
 include other sites on the Harpeth river and Mill Creek. Conventional water quality sampling can only provide readings from the past couple of days, which is inadequate
 for the purposes of advising recreational usage. Real time data are retrieved from USGS and local weather stations to make predictions based on a model built from past
