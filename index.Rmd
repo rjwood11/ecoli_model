@@ -17,7 +17,6 @@ time = lubridate::with_tz(Sys.time(), "CST6CDT")
 
 The last update happened at `r time` Central Time.
 
-
 ``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
 big_streets = getbb("Nashville Tennessee") %>%
@@ -103,6 +102,7 @@ site_coords$color[is.na(site_coords$color)] = 'gray'
 
 ```
 
+## Legend
 
 Green on the map represents safe levels of waterborne microbial life based on our predictive model,
 yellow suggests caution as the predicted level is approaching inadvisable levels for human health,
@@ -148,7 +148,7 @@ plotly::ggplotly(map)
 ```
 
 
-## 
+## About the map
 
 The health of our rivers is integral to environmental sustainability, protection of wildlife, 
 and clean water, and subsequently the health of residents that depend on the use of the water.
@@ -176,8 +176,8 @@ recreated rivers (i.e. &gt;500,000 visit the Harpeth River State Parks annually)
 sampling efforts are paired with predictive modeling, which provides the general public “early
 warning” notice if waters may be unsafe to swim based on levels of E. coli. Typically, water samples
 must be processed in a lab environment and take up to a couple of days to acquire E. coli levels,
-which is obviously inadequate for informing recreational use if you're telling people that the water
-from two days ago was bad to play around in.
+which is obviously inadequate for informing recreational use to people that the water
+from two days ago was a health hazard.
 
 Fortunately, it is possible to develop a framework model using past sample data in conjunction with 
 live data from environmental monitors such as live water quality and weather data to predict the level
