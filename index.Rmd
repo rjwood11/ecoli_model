@@ -38,6 +38,16 @@ river = getbb("Nashville Tennessee") %>%
 
 ```
 
+## Introductions
+
+This project currently provides modelled predictions of waterborne harmful microbial concentration at one river site in
+Nashville, with plans to expand the model to include other sites on the Harpeth river and Mill Creek. Conventional water
+quality sampling can only provide readings from the past couple of days, which is inadequate for the purposes of advising
+recreational usage. Real time data are retrieved from USGS and local weather stations to make predictions based on a model
+built from past E. coli samples and environmental conditions, and updated on an hourly basis. It is important to note that
+predictions are inherently uncertain and cannot guarantee risk or safety, and it is still possible to be negatively impacted
+even when the predictions indicate a safe environment, or remain healthy even if the predictions indicate that caution should
+be taken.
 
 ``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
@@ -91,14 +101,14 @@ site_coords = site_coords %>% mutate(ecoli = if_else(site_no == '0343233905', sq
 
 # assign color values based on conditional ecoli values
 
-site_coords = site_coords %>% mutate(color = ifelse(ecoli > 250, "red", 
-                                                    ifelse(ecoli < 250 & ecoli > 220, "yellow", "green")))
+site_coords = site_coords %>% mutate(color = ifelse(ecoli > 250, "Warning", 
+                                                    ifelse(ecoli < 250 & ecoli > 220, "Caution", "Safe")))
 
 # Set NA values to gray
 
-site_coords$color[is.na(site_coords$color)] = 'gray'
+site_coords$color[is.na(site_coords$color)] = 'Data Unavailable'
 
-
+cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavailable" = "gray")
 
 ```
 
@@ -134,7 +144,7 @@ ggplot() +
            ylim = c(35.86778, 36.40550),
            expand = FALSE)  +
   geom_point(data=site_coords, aes(x=Longitude, y=Latitude, text = paste(station_nm, '\n', 'USGS Station', site_no), color = color), size = 2, alpha=.8, inherit.aes = F) +
-  scale_colour_identity() +
+  scale_colour_manual(values = cols, drop = FALSE) +
   theme_void() +
   theme(plot.title = element_text(size = 20, face="bold", hjust=.5),
         plot.subtitle = element_text(size = 8, hjust=.5, margin=margin(2, 0, 5, 0))) +
@@ -146,7 +156,7 @@ ggplot() +
 plotly::ggplotly(map)
 
 ```
-
+You can hover over the site dots on the map to get more information!
 
 ## About the map
 

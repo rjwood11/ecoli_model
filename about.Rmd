@@ -4,3 +4,5 @@ title: "About"
 
 This project is being developed and maintained by Robin Young & Fanjing Kong from the Vanderbilt University Department of Earth and Environmental Sciences in collaboration with Ryan Jackwood from the Harpeth Conservancy and with additional support from the Mill Creek Watershed Association.
 
+The code for this project and website deployment is stored at this [Github Repository](https://github.com/robin-a-young/ecoli_model)
+
