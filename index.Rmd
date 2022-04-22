@@ -182,12 +182,11 @@ According to the data from Center for Disease Control, human pathogens are one o
 causes of recreational water illness, which can be indexed with measurements of E. coli level in the water.
 
 Unfortunately, there is very little E. coli sampling work being done, particularly in our highly
-recreated rivers (i.e. &gt;500,000 visit the Harpeth River State Parks annually) and none of these
+recreational rivers (i.e. &gt;500,000 visit the Harpeth River State Parks annually) and none of these
 sampling efforts are paired with predictive modeling, which provides the general public “early
 warning” notice if waters may be unsafe to swim based on levels of E. coli. Typically, water samples
 must be processed in a lab environment and take up to a couple of days to acquire E. coli levels,
-which is obviously inadequate for informing recreational use to people that the water
-from two days ago was a health hazard.
+which is inadequate for informing recreational use to people that the water from two days ago was a health hazard.
 
 Fortunately, it is possible to develop a framework model using past sample data in conjunction with 
 live data from environmental monitors such as live water quality and weather data to predict the level
@@ -195,6 +194,10 @@ of harmful bacteria in the water. So far, our preliminary work on one site on th
 has culminated in a predictive model shown below:
 
 $E. coli = \sqrt{Precipitation} + River Discharge + Dissolved Oxygen^{2} + \sin(Day of Year)^{2}$
+
+Or, alternatively, a more simplified but graphical illustration of the model:
+
+![Cartoon Diagram](formula_cartoon.png)
 
 Where precipitation, river discharge, and dissolved oxygen are retrieved from sources such as
 the United States Geological Survey, which maintains river gauges that report live data, as well
