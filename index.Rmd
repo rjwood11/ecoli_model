@@ -35,7 +35,8 @@ big_streets = getbb("Nashville Tennessee") %>%
                                  "\"highway\"=\"primary\"",
                                  "\"highway\"=\"motorway_link\"",
                                  "\"highway\"=\"trunk_link\"",
-                                 "\"highway\"=\"primary_link\"")) %>%
+                                 "\"highway\"=\"primary_link\"",
+                                 "\"boundary\"=\"administrative\"")) %>%
   osmdata_sf()
 
 med_streets = getbb("Nashville Tennessee") %>%
@@ -71,7 +72,7 @@ parameter_codes = c("00060", "00300")
 
 
 sites = readNWISsite(siteNumbers=c(sites_millcreek, sites_harpeth, sites_richland))
-site_coords = sites[c(1,4:5,8:12)]
+site_coords = sites[c(2:3,5:6,7,10:12),]
 data.table::setnames(site_coords, old = c("dec_lat_va"),
                      new = c("Latitude"))
 data.table::setnames(site_coords, old = c("dec_long_va"),
@@ -146,11 +147,11 @@ ggplot() +
           color = "steelblue",
           size = .8,
           alpha = .3) +
-  geom_sf(data = med_streets$osm_lines,
-         inherit.aes = FALSE,
-         color = "black",
-         size = .3,
-         alpha = .5) +
+#  geom_sf(data = med_streets$osm_lines,
+#         inherit.aes = FALSE,
+#         color = "black",
+#         size = .3,
+#         alpha = .5) +
   geom_sf(data = big_streets$osm_lines,
           inherit.aes = FALSE,
           color = "black",
@@ -166,7 +167,10 @@ ggplot() +
         plot.subtitle = element_text(size = 8, hjust=.5, margin=margin(2, 0, 5, 0))) +
   labs(title = "Nashville", subtitle = "USGS River Gauge Sites") +
   labs(caption=str_c("Last update: ", time,  " Central Time.")) +
-  theme(legend.position="bottom")
+  theme(legend.position="bottom") +
+  geom_label(data=site_coords, aes(x=Longitude, y=Latitude,
+                              label=site_coords$station_nm,
+                              na.rm=T, inherit.aes = F))
 }
   
 plotly::ggplotly(map)
