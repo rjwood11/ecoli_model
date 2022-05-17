@@ -1,6 +1,6 @@
 # Nashville Waterways E. coli Predictive Modeling Project
 
-The deployed website with the model can be found here: http://ecoli.rayoung.org/index.html
+The deployed website with the model can be found here: http://ecoli.rayoung.org/index.html or https://rjwood11.github.io/ecoli_model/
 
 ## Introduction
 
