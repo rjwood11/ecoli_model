@@ -112,12 +112,12 @@ site_coords = site_coords %>% mutate(ecoli = if_else(site_no == '0343233905', sq
 
 # assign color values based on conditional ecoli values
 
-site_coords = site_coords %>% mutate(color = ifelse(ecoli > 235, "Warning", 
+site_coords = site_coords %>% mutate(Status = ifelse(ecoli > 235, "Warning", 
                                                     ifelse(ecoli < 235 & ecoli > 200, "Caution", "Safe")))
 
 # Set NA values to gray
 
-site_coords$color[is.na(site_coords$color)] = 'Data Unavailable'
+site_coords$Status[is.na(site_coords$Status)] = 'Data Unavailable'
 
 cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavailable" = "pink")
 
@@ -151,7 +151,7 @@ ggplot() +
   coord_sf(xlim = c(-87.15477, -86.51559), 
            ylim = c(35.86778, 36.40550),
            expand = FALSE)  +
-  geom_point(data=site_coords, aes(x=Longitude, y=Latitude, text = paste(station_nm, '\n', 'USGS Station', site_no), color = color), size = 2, alpha=.8, inherit.aes = F) +
+  geom_point(data=site_coords, aes(x=Longitude, y=Latitude, text = paste(station_nm, '\n', 'USGS Station', site_no), color = Status), size = 2, alpha=.8, inherit.aes = F) +
   scale_colour_manual(values = cols, drop = FALSE) +
   theme_void() +
   theme(plot.title = element_text(size = 20, face="bold", hjust=.5),
