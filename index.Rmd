@@ -119,7 +119,7 @@ site_coords = site_coords %>% mutate(color = ifelse(ecoli > 235, "Warning",
 
 site_coords$color[is.na(site_coords$color)] = 'Data Unavailable'
 
-cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavailable" = "gray")
+cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavailable" = "pink")
 
 ```
 
