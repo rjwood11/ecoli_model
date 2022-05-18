@@ -1,7 +1,9 @@
 ---
-title: "Predictive Model Map"
+title: "Harpeth Conservancy's E. coli Forecast"
+output: pdf_document
 ---
-``` {r, setup, include=FALSE, warning=FALSE}
+
+```{r, setup, include=FALSE, warning=FALSE}
 library(tidyverse)
 library(osmdata) 
 library(ggmap)
@@ -9,8 +11,7 @@ library(dataRetrieval)
 library(XML)
 ```
 
-
-``` {r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 
 time = lubridate::with_tz(Sys.time(), "CST6CDT")
 
@@ -18,7 +19,7 @@ time = lubridate::with_tz(Sys.time(), "CST6CDT")
 
 The last update happened at `r time` Central Time.
 
-``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
 # big_streets = getbb("Nashville Tennessee") %>%
 #   opq() %>%
@@ -54,16 +55,9 @@ river = getbb("Nashville Tennessee") %>%
 
 ## Introductions
 
-This project currently provides modelled predictions of waterborne harmful microbial concentration at one river site in
-Nashville, with plans to expand the model to include other sites on the Harpeth river and Mill Creek. Conventional water
-quality sampling can only provide readings from the past couple of days, which is inadequate for the purposes of advising
-recreational usage. Real time data are retrieved from USGS and local weather stations to make predictions based on a model
-built from past E. coli samples and environmental conditions, and updated on an hourly basis. It is important to note that
-predictions are inherently uncertain and cannot guarantee risk or safety, and it is still possible to be negatively impacted
-even when the predictions indicate a safe environment, or remain healthy even if the predictions indicate that caution should
-be taken.
+This project currently provides modelled predictions of waterborne harmful microbial concentration at one river site in Nashville, with plans to expand the model to include other sites on the Harpeth river and Mill Creek. Conventional water quality sampling can only provide readings from the past couple of days, which is inadequate for the purposes of advising recreational usage. Real time data are retrieved from USGS and local weather stations to make predictions based on a model built from past E. coli samples and environmental conditions, and updated on an hourly basis. It is important to note that predictions are inherently uncertain and cannot guarantee risk or safety, and it is still possible to be negatively impacted even when the predictions indicate a safe environment, or remain healthy even if the predictions indicate that caution should be taken.
 
-``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
 sites_millcreek = c("03431060", "03430550", "03431083","03431000")
 sites_harpeth = c("0343233905", "03432400", "034324146","03432800", "03434500", "03433500")
@@ -131,12 +125,9 @@ cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavai
 
 ## Legend
 
-Green on the map represents safe levels of waterborne microbial life based on our predictive model,
-yellow suggests caution as the predicted level is approaching inadvisable levels for human health,
-and red is when a station reports data that has exceeded the threshold. Gray stations represent
-sites where data is unavailable or insufficient to provide a prediction.
+Green on the map represents safe levels of waterborne microbial life based on our predictive model, yellow suggests caution as the predicted level is approaching inadvisable levels for human health, and red is when a station reports data that has exceeded the threshold. Gray stations represent sites where data is unavailable or insufficient to provide a prediction.
 
-``` {r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 
 library(plotly)
 
@@ -176,42 +167,20 @@ ggplot() +
 plotly::ggplotly(map)
 
 ```
+
 You can hover over the site dots on the map to get more information!
 
 ## About the map
 
-The health of our rivers is integral to environmental sustainability, protection of wildlife, 
-and clean water, and subsequently the health of residents that depend on the use of the water.
-River health is determined by monitoring various factors of water quality, such as
-temperature, precipitation, dissolved oxygen and other particles, and concentration of microbial life and contaminants.
-Water quality data are utilized to identify and quantify contamination/impairments, 
-inform protection and management strategies, and verify and evaluate management efforts. 
+The health of our rivers is integral to environmental sustainability, protection of wildlife, and clean water, and subsequently the health of residents that depend on the use of the water. River health is determined by monitoring various factors of water quality, such as temperature, precipitation, dissolved oxygen and other particles, and concentration of microbial life and contaminants. Water quality data are utilized to identify and quantify contamination/impairments, inform protection and management strategies, and verify and evaluate management efforts.
 
-Among all the factors affecting water quality, harmful microbials such as bacteria threaten our waterways 
-and pose health risks to swimmers, kayakers, and recreational fishers. 
-Waterborne pathogens (bacteria capable of causing disease in humans) have
-been known to cause Salmonellosis, Legionnaires’ disease, Dysentery, and other stomach,
-respiratory, skin, and brain effects. Bacteria sources may include sewage, urban runoff,
-agricultural runoff, or industrial waste. When these bacteria flow into our beaches and rivers they
-can pose serious health risks.
+Among all the factors affecting water quality, harmful microbials such as bacteria threaten our waterways and pose health risks to swimmers, kayakers, and recreational fishers. Waterborne pathogens (bacteria capable of causing disease in humans) have been known to cause Salmonellosis, Legionnaires' disease, Dysentery, and other stomach, respiratory, skin, and brain effects. Bacteria sources may include sewage, urban runoff, agricultural runoff, or industrial waste. When these bacteria flow into our beaches and rivers they can pose serious health risks.
 
-Recreational waters are threatened by fecal contamination from urban and agricultural drainage
-that may contain human pathogens associated with gastrointestinal and respiratory illness. Many
-recreational rivers are monitored for fecal contamination, arousing threat to human health.
-According to the data from Center for Disease Control, human pathogens are one of the top
-causes of recreational water illness, which can be indexed with measurements of E. coli level in the water.
+Recreational waters are threatened by fecal contamination from urban and agricultural drainage that may contain human pathogens associated with gastrointestinal and respiratory illness. Many recreational rivers are monitored for fecal contamination, arousing threat to human health. According to the data from Center for Disease Control, human pathogens are one of the top causes of recreational water illness, which can be indexed with measurements of E. coli level in the water.
 
-Unfortunately, there is very little E. coli sampling work being done, particularly in our highly
-recreational rivers (i.e. &gt;500,000 visit the Harpeth River State Parks annually) and none of these
-sampling efforts are paired with predictive modeling, which provides the general public “early
-warning” notice if waters may be unsafe to swim based on levels of E. coli. Typically, water samples
-must be processed in a lab environment and take up to a couple of days to acquire E. coli levels,
-which is inadequate for informing recreational use to people that the water from two days ago was a health hazard.
+Unfortunately, there is very little E. coli sampling work being done, particularly in our highly recreational rivers (i.e. \>500,000 visit the Harpeth River State Parks annually) and none of these sampling efforts are paired with predictive modeling, which provides the general public "early warning" notice if waters may be unsafe to swim based on levels of E. coli. Typically, water samples must be processed in a lab environment and take up to a couple of days to acquire E. coli levels, which is inadequate for informing recreational use to people that the water from two days ago was a health hazard.
 
-Fortunately, it is possible to develop a framework model using past sample data in conjunction with 
-live data from environmental monitors such as live water quality and weather data to predict the level
-of harmful bacteria in the water. So far, our preliminary work on one site on the Harpeth River
-has culminated in a predictive model shown below:
+Fortunately, it is possible to develop a framework model using past sample data in conjunction with live data from environmental monitors such as live water quality and weather data to predict the level of harmful bacteria in the water. So far, our preliminary work on one site on the Harpeth River has culminated in a predictive model shown below:
 
 $E. coli = \sqrt{Precipitation} + River Discharge + Dissolved Oxygen^{2} + \sin(Day of Year)^{2}$
 
@@ -219,16 +188,4 @@ Or, alternatively, a more simplified but graphical illustration of the model:
 
 ![Cartoon Diagram](formula_cartoon.png)
 
-Where precipitation, river discharge, and dissolved oxygen are retrieved from sources such as
-the United States Geological Survey, which maintains river gauges that report live data, as well
-as local weather stations that report precipitation. So far, one site on the Harpeth River is functional
-on our predictive map, with additional locations identified for further expansion of our work that
-aims to provide informational and educational content about stream health and environmental health
-along with the impact on human activities.
-
-
-
-
-
-
-
+Where precipitation, river discharge, and dissolved oxygen are retrieved from sources such as the United States Geological Survey, which maintains river gauges that report live data, as well as local weather stations that report precipitation. So far, one site on the Harpeth River is functional on our predictive map, with additional locations identified for further expansion of our work that aims to provide informational and educational content about stream health and environmental health along with the impact on human activities.
