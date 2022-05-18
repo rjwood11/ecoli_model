@@ -170,6 +170,14 @@ plotly::ggplotly(map)
 
 You can hover over the site dots on the map to get more information!
 
+```{r}
+
+site_coords[c(1:3,7:8,43:44)]
+
+```
+
+
+
 ## About the map
 
 The health of our rivers is integral to environmental sustainability, protection of wildlife, and clean water, and subsequently the health of residents that depend on the use of the water. River health is determined by monitoring various factors of water quality, such as temperature, precipitation, dissolved oxygen and other particles, and concentration of microbial life and contaminants. Water quality data are utilized to identify and quantify contamination/impairments, inform protection and management strategies, and verify and evaluate management efforts.
