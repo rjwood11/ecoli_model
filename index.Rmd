@@ -301,5 +301,11 @@ widget_file_size(p)
 
 widget_file_size(partial_bundle(p))
 
+
+
+saveWidget(p, "map.html", selfcontained = T, libdir = "lib")
+
+
+
 ```
 
