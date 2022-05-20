@@ -94,7 +94,8 @@ today=today_data %>%
 
 #names(today)
 
-#Codelist<-vapply(strsplit(names(today)[c(4,6,8,10,12,14,16,18)],"_"), `[`, 2, FUN.VALUE=character(1))
+Codelist<-vapply(strsplit(names(today)[c(4,6,8,10,12,14,16,18)],"_"), `[`, 2, FUN.VALUE=character(1))
+
 
 #PcodeLookup<-function(x) { 
  # return(pCodeToName[pCodeToName$parm_cd==x,description]) 
@@ -116,9 +117,12 @@ today=today_data %>%
 
 
 
-data.table::setnames(today_data, old = c("X_00060_00000"), new = c("river_flow_cfs"))
+data.table::setnames(today, old = names(today)[c(4,6,8,10,12,14,16,18)], new = Codelist,skip_absent=T)
 
-data.table::setnames(today_data, old = c("X_00300_00000"), new = c("dissolved_oxygen"))
+#data.table::setnames(today, old = Codelist, new = pCodeToName$description,skip_absent=T)
+
+names(today)[c(4,6,8,10,12,14,16,18)]<- pCodeToName$characteristicname[match(as.numeric(names(today)[c(4,6,8,10,12,14,16,18)]), pCodeToName$parm_cd)]
+
 
 library(XML)
 url = "https://www.wunderground.com/dashboard/pws/KTNFRANK19?cm_ven=localwx_pwsdash"
@@ -142,7 +146,7 @@ precip = xpathSApply(parsed_doc, path = '/html/body/app-root/app-dashboard/one-c
 # I have it set up to only do 0343233905 as a demo, todo: reorganize data structure from data pulling and
 # merge with the site_coords table so the mutate statement will calc all stations and leave no data as null
 
-
+#################### START HERE
 
 site_coords = site_coords %>% mutate(ecoli = if_else(site_no == '0343233905', sqrt(as.numeric(precip)) + tail(today_data$river_flow_cfs, n=1) + tail(today_data$dissolved_oxygen, n=1)^2 + sin(as.numeric(strftime(time, format = "%j")))^2, runif(8,100,400)))
 
