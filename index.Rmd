@@ -9,6 +9,7 @@ library(ggmap)
 library(dataRetrieval)
 library(XML)
 library(DT)
+library(dbplyr)
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
@@ -148,8 +149,36 @@ precip = xpathSApply(parsed_doc, path = '/html/body/app-root/app-dashboard/one-c
 
 #################### START HERE
 
-site_coords = site_coords %>% mutate(ecoli = if_else(site_no == '0343233905', sqrt(as.numeric(precip)) + tail(today_data$river_flow_cfs, n=1) + tail(today_data$dissolved_oxygen, n=1)^2 + sin(as.numeric(strftime(time, format = "%j")))^2, runif(8,100,400)))
+#site_coords = site_coords %>% mutate(ecoli = if_else(site_no == '0343233905', sqrt(as.numeric(precip)) + tail(today_data$river_flow_cfs, n=1) + tail(today_data$dissolved_oxygen, n=1)^2 + sin(as.numeric(strftime(time, format = "%j")))^2, runif(8,100,400)))
 
+
+## Need to figure out how to run multiple distinct models
+
+a<- today$site_no
+b<- today$`Temperature, water`
+c<- today$pH
+d<- as.numeric(precip)
+
+today$`Stream flow, mean. daily`[is.na(today$`Stream flow, mean. daily`)]<-40
+
+e<- today$`Stream flow, mean. daily`
+f<- today$`Height, gage`
+g<- today$`Specific conductance`
+
+today$Oxygen[is.na(today$Oxygen)]<-mean(today$Oxygen, na.rm = TRUE)
+
+h<- today$Oxygen
+z<- as.numeric(strftime(time, format = "%j"))
+
+
+
+today$ecoli <- numeric(length = length(a))
+for (i in seq_along(a)) {
+  ecoli[i] <- sqrt(d)+e[i]+h[i]^2+sin(z)^2
+}
+today$ecoli<-ecoli
+  
+site_coords$ecoli<-ecoli
 
 #Kayak Launch - Lewisburg Pike in Franklin, TN Model Calculation
 
@@ -159,10 +188,16 @@ site_coords = site_coords %>% mutate(ecoli = if_else(site_no == '0343233905', sq
 
 # assign color values based on conditional ecoli values
 
+today = today %>% mutate(Status = ifelse(ecoli > 235, "Warning", 
+                                                    ifelse(ecoli < 235 & ecoli > 175, "Caution", "Safe")))
+
 site_coords = site_coords %>% mutate(Status = ifelse(ecoli > 235, "Warning", 
                                                     ifelse(ecoli < 235 & ecoli > 175, "Caution", "Safe")))
 
+
 # Set NA values to gray
+
+today$Status[is.na(today$Status)] = 'Data Unavailable'
 
 site_coords$Status[is.na(site_coords$Status)] = 'Data Unavailable'
 
@@ -220,7 +255,15 @@ You can hover over the site dots on the map to get more information!
 ```{r}
 site_coords[c(1:3,7:8,43:44)]
 
+
+
 ```
+
+```{r}
+today[c(1,2,3,4,6,8,10,12,14,16,18)]
+
+```
+
 
 ## About the map
 
