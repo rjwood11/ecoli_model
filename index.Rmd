@@ -220,6 +220,7 @@ ggplot() +
           color = "steelblue",
           size = .8,
           alpha = .3) +
+  geom_sf_text(data = river$osm_lines, aes(label = name), color="blue") +
 #  geom_sf(data = med_streets$osm_lines,
 #         inherit.aes = FALSE,
 #         color = "black",
@@ -240,13 +241,14 @@ ggplot() +
         plot.subtitle = element_text(size = 8, hjust=.5, margin=margin(2, 1, 5, 1))) +
   labs(title = "Nashville", subtitle = "USGS River Gauge Sites") +
   labs(caption=str_c("Last update: ", time,  " Central Time.")) +
-  theme(legend.position="bottom") +
-  geom_label(data=site_coords, aes(x=Longitude, y=Latitude,
-                              label=site_coords$station_nm,
-                              na.rm=T, inherit.aes = F))
+  theme(legend.position="bottom")
+
 }
   
 plotly::ggplotly(map)
+
+
+
 
 ```
 
@@ -284,3 +286,20 @@ Or, alternatively, a more simplified but graphical illustration of the model:
 ![Cartoon Diagram](formula_cartoon.png)
 
 Where precipitation, river discharge, and dissolved oxygen are retrieved from sources such as the United States Geological Survey, which maintains river gauges that report live data, as well as local weather stations that report precipitation. So far, one site on the Harpeth River is functional on our predictive map, with additional locations identified for further expansion of our work that aims to provide informational and educational content about stream health and environmental health along with the impact on human activities.
+
+```{r}
+
+p <- plotly::ggplotly(map)
+widget_file_size <- function(p) {
+  d <- tempdir()
+  withr::with_dir(d, htmlwidgets::saveWidget(p, "map.html"))
+  f <- file.path(d, "map.html")
+  mb <- round(file.info(f)$size / 1e6, 3)
+  message("File is: ", mb," MB")
+}
+widget_file_size(p)
+
+widget_file_size(partial_bundle(p))
+
+```
+
