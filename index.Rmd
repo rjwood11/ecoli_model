@@ -210,7 +210,7 @@ cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavai
 
 Green on the map represents safe levels of waterborne microbial life based on our predictive model, yellow suggests caution as the predicted level is approaching inadvisable levels for human health, and red is when a station reports data that has exceeded the threshold. Gray stations represent sites where data is unavailable or insufficient to provide a prediction.
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE,fig.keep='all'}
 
 library(plotly)
 
@@ -255,14 +255,14 @@ plotly::ggplotly(map)
 
 You can hover over the site dots on the map to get more information!
 
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 site_coords[c(1:3,7:8,43:44)]
 
 
 
 ```
 
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 today[c(1,2,3,4,6,8,10,12,14,16,18)]
 
 ```
@@ -288,7 +288,7 @@ Or, alternatively, a more simplified but graphical illustration of the model:
 
 Where precipitation, river discharge, and dissolved oxygen are retrieved from sources such as the United States Geological Survey, which maintains river gauges that report live data, as well as local weather stations that report precipitation. So far, one site on the Harpeth River is functional on our predictive map, with additional locations identified for further expansion of our work that aims to provide informational and educational content about stream health and environmental health along with the impact on human activities.
 
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
 p <- plotly::ggplotly(map)
 widget_file_size <- function(p) {
