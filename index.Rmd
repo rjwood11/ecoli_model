@@ -173,9 +173,9 @@ z<- as.numeric(strftime(time, format = "%j"))
 
 
 
-today$ecoli <- numeric(length = length(a))
+ecoli <- numeric(length = length(a))
 for (i in seq_along(a)) {
-  ecoli[i] <- sqrt(d)+e[i]+h[i]^2+sin(z)^2
+ ecoli[i] = sqrt(d)+e[i]+h[i]^2+sin(z)^2
 }
 today$ecoli<-ecoli
   
