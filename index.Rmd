@@ -255,15 +255,19 @@ plotly::ggplotly(map)
 
 You can hover over the site dots on the map to get more information!
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all', results='asis'}
 site_coords[c(1:3,7:8,43:44)]
 
+
+knitr::kable(site_coords[c(1:3,7:8,43:44)], caption = "Sampling Locations and Data")
 
 
 ```
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all', results='asis'}
 today[c(1,2,3,4,6,8,10,12,14,16,18)]
+
+knitr::kable(today[c(1,2,3,4,6,8,10,12,14,16,18)], caption = "Sampling Locations and Data")
 
 ```
 
