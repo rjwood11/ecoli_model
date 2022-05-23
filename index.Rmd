@@ -10,6 +10,7 @@ library(dataRetrieval)
 library(XML)
 library(DT)
 library(dbplyr)
+library(widgetframe)
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
@@ -303,7 +304,7 @@ widget_file_size(partial_bundle(p))
 
 
 
-saveWidget(p, "map.html", selfcontained = T, libdir = "lib")
+saveWidget(frameableWidget(partial_bundle(p)), "map.html", selfcontained = T, libdir = "lib")
 
 
 
