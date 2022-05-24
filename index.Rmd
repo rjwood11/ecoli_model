@@ -11,6 +11,8 @@ library(XML)
 library(DT)
 library(dbplyr)
 library(widgetframe)
+library(rgdal)
+library(leaflet)
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
@@ -209,39 +211,47 @@ cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavai
 
 library(plotly)
 
-map = {
-ggplot() +
-  geom_sf(data = river$osm_lines,
-          inherit.aes = FALSE,
-          color = "steelblue",
-          size = .8,
-          alpha = .3) +
-  geom_sf_text(data = river$osm_lines, aes(label = name), color="blue") +
+#map = {
+#ggplot() +
+#  geom_sf(data = river$osm_lines,
+#          inherit.aes = FALSE,
+#          color = "steelblue",
+#          size = .8,
+#          alpha = .3) +
+#  geom_sf_text(data = river$osm_lines, aes(label = name), color="blue") +
 #  geom_sf(data = med_streets$osm_lines,
 #         inherit.aes = FALSE,
 #         color = "black",
 #         size = .3,
 #         alpha = .5) +
-  geom_sf(data = big_streets$osm_lines,
-          inherit.aes = FALSE,
-          color = "black",
-          size = .5,
-          alpha = .6) +
-  coord_sf(xlim = c(-87.15477, -86.51559), 
-           ylim = c(35.86778, 36.40550),
-           expand = FALSE)  +
-  geom_point(data=site_coords, aes(x=Longitude, y=Latitude, text = paste(station_nm, '\n', 'USGS Station', site_no), color = Status), size = 2, alpha=.8, inherit.aes = F) +
-  scale_colour_manual(values = cols, drop = FALSE) +
-  theme_void() +
-  theme(plot.title = element_text(size = 20, face="bold", hjust=.5),
-        plot.subtitle = element_text(size = 8, hjust=.5, margin=margin(2, 1, 5, 1))) +
-  labs(title = "Nashville", subtitle = "USGS River Gauge Sites") +
-  labs(caption=str_c("Last update: ", time,  " Central Time.")) +
-  theme(legend.position="bottom")
+#  geom_sf(data = big_streets$osm_lines,
+#          inherit.aes = FALSE,
+#          color = "black",
+#          size = .5,
+#          alpha = .6) +
+#  coord_sf(xlim = c(-87.15477, -86.51559), 
+#           ylim = c(35.86778, 36.40550),
+#          expand = FALSE)  +
+# geom_point(data=site_coords, aes(x=Longitude, y=Latitude, text = paste(station_nm, '\n', 'USGS Station', site_no), color = Status), size = 2, alpha=.8, #inherit.aes = F) +
+#  scale_colour_manual(values = cols, drop = FALSE) +
+#  theme_void() +
+#  theme(plot.title = element_text(size = 20, face="bold", hjust=.5),
+#        plot.subtitle = element_text(size = 8, hjust=.5, margin=margin(2, 1, 5, 1))) +
+#  labs(title = "Nashville", subtitle = "USGS River Gauge Sites") +
+#  labs(caption=str_c("Last update: ", time,  " Central Time.")) +
+#  theme(legend.position="bottom")
 
-}
+#}
   
-plotly::ggplotly(map)
+#plotly::ggplotly(map)
+
+
+
+leaflet() %>% 
+  setView(lng = -86.791425, lat = 36.08, zoom = 10) %>%
+  addTiles() %>%
+  addCircleMarkers(data=site_coords, lat=~Latitude, lng= ~Longitude, color = ~Status) %>%
+  addMarkers(icon = ~cols)
 
 
 
