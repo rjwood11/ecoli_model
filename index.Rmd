@@ -13,6 +13,7 @@ library(dbplyr)
 library(widgetframe)
 library(rgdal)
 library(leaflet)
+library(rgdal)
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
