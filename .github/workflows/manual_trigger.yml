@@ -39,6 +39,10 @@ jobs:
           install.packages('osmdata')
           install.packages('ggmap')
           install.packages('sf')
+          install.packages('plotly')
+          install.packages('XML')
+          install.packages('DT')
+          install.packages('widgetframe')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
