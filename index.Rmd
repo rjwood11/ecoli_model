@@ -246,11 +246,11 @@ library(plotly)
 #plotly::ggplotly(map)
 
 
-cbin<-colorBin("Blues",3, site_coords$Status,na.color = "#808080",pretty=F)
+#cbin<-colorBin("Blues",3, site_coords$Status,na.color = "#808080",pretty=F)
 
-cnum<-colorNumeric(c("green","yellow","red"), domain=site_coords$ecoli)
+#cnum<-colorNumeric(c("green","yellow","red"), domain=site_coords$ecoli)
 
-cfac<-colorFactor(c("green","yellow","red"), domain=site_coords$Status)
+cfac<-colorFactor(c("green","yellow","red"), domain=site_coords$Status,na.color = "Gray")
 
 
 
@@ -299,7 +299,7 @@ widget_file_size <- function(p) {
 }
 widget_file_size(p)
 
-widget_file_size(partial_bundle(p))
+#widget_file_size(partial_bundle(p))
 
 
 
