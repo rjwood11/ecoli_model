@@ -13,7 +13,7 @@ library(dbplyr)
 library(widgetframe)
 library(rgdal)
 library(leaflet)
-library(rgdal)
+library(plotly)
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
@@ -127,7 +127,6 @@ data.table::setnames(today, old = names(today)[c(4,6,8,10,12,14,16,18)], new = C
 names(today)[c(4,6,8,10,12,14,16,18)]<- pCodeToName$characteristicname[match(as.numeric(names(today)[c(4,6,8,10,12,14,16,18)]), pCodeToName$parm_cd)]
 
 
-library(XML)
 url = "https://www.wunderground.com/dashboard/pws/KTNFRANK19?cm_ven=localwx_pwsdash"
 source = readLines(url, encoding = "UTF-8")
 parsed_doc = htmlParse(source, encoding = "UTF-8")
@@ -255,12 +254,12 @@ cfac<-colorFactor(c("green","yellow","red"), domain=site_coords$Status)
 
 
 
-leaflet() %>% 
+p<-leaflet() %>% 
   setView(lng = -86.791425, lat = 36.08, zoom = 10) %>%
   addTiles() %>%
   addCircleMarkers(data=site_coords, lat=~Latitude, lng= ~Longitude, color = ~cfac(Status))
 
-
+p
 
 
 ```
@@ -290,7 +289,7 @@ knitr::kable(today[c(1,2,3,4,6,8,10,12,14,16,18)], caption = "Sampling Locations
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
-p <- plotly::ggplotly(map)
+#p <- plotly::ggplotly(p)
 widget_file_size <- function(p) {
   d <- tempdir()
   withr::with_dir(d, htmlwidgets::saveWidget(p, "map.html"))
@@ -304,7 +303,7 @@ widget_file_size(partial_bundle(p))
 
 
 
-saveWidget(frameableWidget(partial_bundle(p)), "map.html", selfcontained = T, libdir = "lib")
+saveWidget(frameableWidget(p), "map.html", selfcontained = T, libdir = "lib")
 
 
 
