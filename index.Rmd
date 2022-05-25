@@ -26,30 +26,30 @@ The last update happened at `r time` Central Time.
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
-# big_streets = getbb("Nashville Tennessee") %>%
-#   opq() %>%
-#   add_osm_feature(key = "highway", 
-#                   value = c("motorway", "trunk", "primary", #  "primary_link", "trunk_link")) %>%
-# osmdata_sf()
-
 big_streets = getbb("Nashville Tennessee") %>%
-  opq() %>%
-  add_osm_features (features = c("\"place\"=\"city\"",
-                                 "\"place\"=\"suburb\"",
-                                 "\"highway\"=\"motorway\"",
-                                 "\"highway\"=\"trunk\"",
-                                 "\"highway\"=\"primary\"",
-                                 "\"highway\"=\"motorway_link\"",
-                                 "\"highway\"=\"trunk_link\"",
-                                 "\"highway\"=\"primary_link\"",
-                                 "\"boundary\"=\"administrative\"")) %>%
-  osmdata_sf()
+   opq() %>%
+   add_osm_feature(key = "highway", 
+                   value = c("motorway", "trunk", "primary",  "primary_link", "trunk_link")) %>%
+osmdata_sf()
 
-med_streets = getbb("Nashville Tennessee") %>%
- opq() %>%
- add_osm_feature(key = "highway", 
-                 value = c("secondary", "tertiary", "secondary_link", "tertiary_link")) %>%
- osmdata_sf()
+#big_streets = getbb("Nashville Tennessee") %>%
+#  opq() %>%
+#  add_osm_features (features = c("\"place\"=\"city\"",
+#                                 "\"place\"=\"suburb\"",
+#                                 "\"highway\"=\"motorway\"",
+#                                 "\"highway\"=\"trunk\"",
+#                                 "\"highway\"=\"primary\"",
+#                                 "\"highway\"=\"motorway_link\"",
+#                                 "\"highway\"=\"trunk_link\"",
+#                                 "\"highway\"=\"primary_link\"",
+#                                 "\"boundary\"=\"administrative\"")) %>%
+#  osmdata_sf()
+
+#med_streets = getbb("Nashville Tennessee") %>%
+# opq() %>%
+# add_osm_feature(key = "highway", 
+#                 value = c("secondary", "tertiary", "secondary_link", "tertiary_link")) %>%
+# osmdata_sf()
 
 river = getbb("Nashville Tennessee") %>%
   opq()%>%
@@ -79,14 +79,14 @@ data.table::setnames(site_coords, old = c("dec_long_va"),
 
 today_data = readNWISdata(sites=c('0343233905','03431000','03431060','03431655','03431700','03432800','03433500','03434500'), service="iv",asDateTime=T)
                           
-#today_data = readNWISdata(sites=c('0343233905'),
+#today_data = readNWISdata(sites=c('0343233905'), service="iv"))
                           
 
 
 
 today=today_data %>% 
   group_by(site_no) %>%
-  slice(which.max(as.Date(dateTime,format = '%Y-%m-%d %H:%M:%S')))
+  slice(which.max(as.POSIXct(dateTime,format = '%Y-%m-%d %H:%M:%S')))
 
 
 
