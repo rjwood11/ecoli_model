@@ -58,6 +58,9 @@ river = getbb("Nashville Tennessee") %>%
 
 ```
 
+![Current Weather](https://www.wunderground.com/static/i/c/v4/30.svg)
+
+
 
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
@@ -126,14 +129,24 @@ data.table::setnames(today, old = names(today)[c(4,6,8,10,12,14,16,18)], new = C
 
 names(today)[c(4,6,8,10,12,14,16,18)]<- pCodeToName$characteristicname[match(as.numeric(names(today)[c(4,6,8,10,12,14,16,18)]), pCodeToName$parm_cd)]
 
-
-url = "https://www.wunderground.com/dashboard/pws/KTNFRANK19?cm_ven=localwx_pwsdash"
-source = readLines(url, encoding = "UTF-8")
+url = "https://www.wunderground.com/precipitation/us/tn/franklin/35.92,-86.86?cm_ven=localwx_modprecip"
+source = readLines(url, encoding = "UTF-8",warn=F)
 parsed_doc = htmlParse(source, encoding = "UTF-8")
-precip = xpathSApply(parsed_doc, path = '/html/body/app-root/app-dashboard/one-column-layout/
-                     wu-header/sidenav/mat-sidenav-container/mat-sidenav-content/div/section/
-                     section[1]/div[1]/div/section/div/div/div/div[2]/div/lib-tile-current-conditions/
-                     div/div[2]/div/div[4]/div[5]/div/div[2]/lib-display-unit/span/span[1]', xmlValue)
+PRCP = xpathSApply(parsed_doc, path ="/html/body/app-root/app-precipitation/one-column-layout/wu-header/sidenav/mat-sidenav-container/mat-sidenav-content/div/section/div[2]/div[2]/div[1]/lib-precipitation-liquid-accumulation/div/div/div/div[1]/div/div[2]/div[2]/div/span[2]/text()", xmlValue)
+
+
+url = "https://www.wunderground.com/weather/us/tn/franklin/35.92,-86.86"
+source = readLines(url, encoding = "UTF-8",warn=F)
+parsed_doc = htmlParse(source, encoding = "UTF-8")
+TAVG = xpathSApply(parsed_doc, path = "/html/body/app-root/app-today/one-column-layout/wu-header/sidenav/mat-sidenav-container/mat-sidenav-content/div/section/div[3]/div[1]/div/div[1]/div[1]/lib-city-current-conditions/div/div[2]/div/div/div[2]/lib-display-unit/span/span[1]", xmlValue)
+
+
+url = "https://www.wunderground.com/weather/us/tn/franklin/35.92,-86.86"
+source = readLines(url,encoding = "UTF-8",warn=F)
+parsed_doc = htmlParse(source, encoding = "UTF-8")
+WSF5 <- xpathSApply(parsed_doc, path = '/html/body/app-root/app-today/one-column-layout/wu-header/sidenav/mat-sidenav-container/mat-sidenav-content/div/section/div[3]/div[1]/div/div[1]/div[1]/lib-city-current-conditions/div/div[3]/div/div[2]/p/strong/lib-display-unit/span/span[1]', xmlValue)
+
+
 
 
 
@@ -154,6 +167,26 @@ precip = xpathSApply(parsed_doc, path = '/html/body/app-root/app-dashboard/one-c
 
 
 ## Need to figure out how to run multiple distinct models
+
+###########################################################################################################
+# Predictive Equations from Virtual Beach 
+## Hwy 100 Sampling Location - MLR
+## Ecoli = -136 + 6468*(PRCP) + 1.416*(discharge) 
+## Decision Criteria = 235
+
+## Lowhead Dam/Lewisburg Pike - GBM
+## Ecoli = PRCP + TAVG + SQUARE(WSF5) + discharge
+## Decision Criteria = 528.8
+
+## Richland Creek/Sylvan Park - MLR
+## Ecoli = -1201 + 1.912e+04*(PRCP) + 0.2474*(SQUARE(TAVG))
+## Decision Criteria = 235
+
+###########################################################################################################
+
+
+
+
 
 a<- today$site_no
 b<- today$`Temperature, water`
