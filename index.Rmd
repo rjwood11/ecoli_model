@@ -89,7 +89,7 @@ today=today_data %>%
   slice(which.max(as.POSIXct(dateTime,format = '%Y-%m-%d %H:%M:%S')))
 
 
-
+today1<-today
 
 
 # discharge often unavailable, annoying.
