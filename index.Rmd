@@ -173,8 +173,8 @@ WSF5 <- xpathSApply(parsed_doc, path = '/html/body/app-root/app-today/one-column
 ## Decision Criteria = 235
 
 ## Lowhead Dam/Lewisburg Pike - GBM
-## Ecoli = PRCP + TAVG + SQUARE(WSF5) + discharge
-## Decision Criteria = 528.8
+## Ecoli = PRCP + TAVG + SQUARE(WSF5) + discharge                      -24.56 + 5.799*(discharge)
+## Decision Criteria = 528.8                                            235
 
 ## Richland Creek/Sylvan Park - MLR
 ## Ecoli = -1201 + 1.912e+04*(PRCP) + 0.2474*(SQUARE(TAVG))
@@ -226,7 +226,7 @@ for (i in seq_along(a)){
 if (a[i]=="Richland Creek") {
     ecoli[i]= -1201 + as.numeric(1.912e+04*(b)) + 0.2474*(c^2)
 } else if (a[i]=="Lewisburg Pike") {
-    ecoli[i]= b + c + d^2 + e[i]
+    ecoli[i]= -24.56 + 5.799*e[i]
 } else if (a[i]=="Hwy 100 Boat Launch") {
     ecoli[i]= -136 + 6468*(b) + 1.416*e[i] 
 } else {ecoli[i] <- NA}
