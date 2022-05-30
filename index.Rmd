@@ -246,7 +246,7 @@ Forecast = Forecast %>% mutate(Status = ifelse(ecoli > 235, "Warning",
 
 # Set NA values to gray
 
-Forecast$Status[is.na(Forecast$Status)] = 'Data Unavailable'
+Forecast$Status[is.na(Forecast$Status)] = NA
 
 #site_coords$Status[is.na(site_coords$Status)] = 'Data Unavailable'
 
@@ -298,7 +298,7 @@ library(plotly)
 
 #cnum<-colorNumeric(c("green","yellow","red"), domain=site_coords$ecoli)
 
-cfac<-colorFactor(c("green","yellow","red"), domain=Forecast$Status,na.color = "gray")
+cfac<-colorFactor(c("green","yellow","red"), domain=Forecast$Status,na.color = "grey")
 
 
 
