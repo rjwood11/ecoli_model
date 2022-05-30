@@ -58,21 +58,19 @@ river = getbb("Nashville Tennessee") %>%
 
 ```
 
-![Current Weather](https://www.wunderground.com/static/i/c/v4/30.svg)
-
 
 
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
 sites_millcreek = c("03431060", "03430550", "03431083","03431000")
-sites_harpeth = c("0343233905", "03432400", "034324146","03432800", "03434500", "03433500")
+sites_harpeth = c("0343233905", "03432400", "034324146","03432800", "03434500", "03433500","03432350")
 sites_richland = c("03431700", "03431655")
 parameter_codes = c("00060", "00300")
 
 
 sites = readNWISsite(siteNumbers=c(sites_millcreek, sites_harpeth, sites_richland))
-site_coords = sites[c(2:3,5:6,7,10:12),]
+site_coords = sites[c(2:3,5:6,7:8,11:13),]
 data.table::setnames(site_coords, old = c("dec_lat_va"),
                      new = c("Latitude"))
 data.table::setnames(site_coords, old = c("dec_long_va"),
@@ -80,7 +78,7 @@ data.table::setnames(site_coords, old = c("dec_long_va"),
 
 # Just 0343233905 to demonstrate concept
 
-today_data = readNWISdata(sites=c('0343233905','03431000','03431060','03431655','03431700','03432800','03433500','03434500'), service="iv",asDateTime=T)
+today_data = readNWISdata(sites=c('0343233905','03431000','03431060','03431655','03431700','03432800','03433500','03434500','03432350'), service="iv",asDateTime=T)
                           
 #today_data = readNWISdata(sites=c('0343233905'), service="iv"))
                           
@@ -92,7 +90,7 @@ today=today_data %>%
   slice(which.max(as.POSIXct(dateTime,format = '%Y-%m-%d %H:%M:%S')))
 
 
-today1<-today
+
 
 
 # discharge often unavailable, annoying.
@@ -184,58 +182,75 @@ WSF5 <- xpathSApply(parsed_doc, path = '/html/body/app-root/app-today/one-column
 
 ###########################################################################################################
 
+today1<-today
+
+site_no<-c("03433500","03433500","03433500","03432350","03433500","03434500","03431700",
+           "03431700","03431060","03431060","0343233905")
+
+Location<-c("Natchez Trace", "Moran Rd. Bridge", "Hwy 100 Boat Launch", "Lowhead Dam",  "Coley Davis", "Hwy 70",             
+            "Richland Creek", "Jackson Blvd", "Whittsett Park", "Mill Creek Greenway", "Lewisburg Pike")
+
+LocLookup <- data.frame(Location, site_no)
+
+Forecast1<-LocLookup
+
+Forecast<-merge(x = Forecast1, y = today1, by = "site_no", all.y = TRUE, na.rm=T)
+
+Forecast <- Forecast[-c(1,4,9),]
 
 
+Forecast$`Stream flow, mean. daily`[5] <- ifelse(is.na(Forecast$`Stream flow, mean. daily`[5]), Forecast$`Stream flow, mean. daily`[6], Forecast$`Stream flow, mean. daily`[5])
+
+Forecast <- Forecast[-c(6,7,10),]
+
+#Forecast$Longitude <- site_coords$Longitude[match(as.numeric(Forecast$Location), pCodeToName$parm_cd)]
 
 
-a<- today$site_no
-b<- today$`Temperature, water`
-c<- today$pH
-d<- as.numeric(precip)
+###################################################################################################################################################
 
-today$`Stream flow, mean. daily`[is.na(today$`Stream flow, mean. daily`)]<-40
+###   Calculate E.coli Predictions based on Virtual Beach Equations   ###
 
-e<- today$`Stream flow, mean. daily`
-f<- today$`Height, gage`
-g<- today$`Specific conductance`
+###################################################################################################################################################
 
-today$Oxygen[is.na(today$Oxygen)]<-mean(today$Oxygen, na.rm = TRUE)
-
-h<- today$Oxygen
+a<- Forecast$Location
+b<-as.numeric(PRCP)
+c<-as.numeric(TAVG)
+d<-as.numeric(WSF5)
+e<-Forecast$`Stream flow, mean. daily`
 z<- as.numeric(strftime(time, format = "%j"))
 
 
-
 ecoli <- numeric(length = length(a))
-for (i in seq_along(a)) {
- ecoli[i] <- sqrt(d)+e[i]+h[i]^2+sin(z)^2
+
+for (i in seq_along(a)){
+if (a[i]=="Richland Creek") {
+    ecoli[i]= -1201 + as.numeric(1.912e+04*(b)) + 0.2474*(c^2)
+} else if (a[i]=="Lewisburg Pike") {
+    ecoli[i]= b + c + d^2 + e[i]
+} else if (a[i]=="Hwy 100 Boat Launch") {
+    ecoli[i]= -136 + 6468*(b) + 1.416*e[i] 
+} else {ecoli[i] <- NA}
 }
-today$ecoli<-ecoli
-  
-site_coords$ecoli<-ecoli
 
-#Kayak Launch - Lewisburg Pike in Franklin, TN Model Calculation
-
-#site_coords_Lewisburg = site_coords[ which(site_coords$site_no=='0343233905'),] %>% mutate(ecoli = if_else(site_no == '0343233905', sqrt(as.numeric(precip)) + tail(today_data$river_flow_cfs, n=1) + tail(today_data$dissolved_oxygen, n=1)^2 + sin(as.numeric(strftime(time, format = "%j")))^2, runif(8,50,500)))
-
+Forecast$ecoli<-ecoli
 
 
 # assign color values based on conditional ecoli values
 
-today = today %>% mutate(Status = ifelse(ecoli > 235, "Warning", 
+Forecast = Forecast %>% mutate(Status = ifelse(ecoli > 235, "Warning", 
                                                     ifelse(ecoli < 235 & ecoli > 175, "Caution", "Safe")))
 
-site_coords = site_coords %>% mutate(Status = ifelse(ecoli > 235, "Warning", 
-                                                    ifelse(ecoli < 235 & ecoli > 175, "Caution", "Safe")))
+#site_coords = site_coords %>% mutate(Status = ifelse(ecoli > 235, "Warning", 
+#                                                    ifelse(ecoli < 235 & ecoli > 175, "Caution", "Safe")))
 
 
 # Set NA values to gray
 
-today$Status[is.na(today$Status)] = 'Data Unavailable'
+Forecast$Status[is.na(Forecast$Status)] = 'Data Unavailable'
 
-site_coords$Status[is.na(site_coords$Status)] = 'Data Unavailable'
+#site_coords$Status[is.na(site_coords$Status)] = 'Data Unavailable'
 
-cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavailable" = "pink")
+cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavailable" = "gray")
 
 ```
 
@@ -283,14 +298,14 @@ library(plotly)
 
 #cnum<-colorNumeric(c("green","yellow","red"), domain=site_coords$ecoli)
 
-cfac<-colorFactor(c("green","yellow","red"), domain=site_coords$Status,na.color = "Gray")
+cfac<-colorFactor(c("green","yellow","red"), domain=Forecast$Status,na.color = "gray")
 
 
 
 p<-leaflet() %>% 
   setView(lng = -86.791425, lat = 36.08, zoom = 10) %>%
   addTiles() %>%
-  addCircleMarkers(data=site_coords, lat=~Latitude, lng= ~Longitude, color = ~cfac(Status))
+  addCircleMarkers(data=site_coords[c(1:4,6:9),], lat=~Latitude, lng= ~Longitude, color = ~cfac(Forecast$Status))
 
 p
 
@@ -299,19 +314,19 @@ p
 
 You can hover over the site dots on the map to get more information!
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all', results='asis'}
-site_coords[c(1:3,7:8,43:44)]
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide', results='asis'}
+#site_coords[c(1:3,7:8,43:44)]
 
 
-knitr::kable(site_coords[c(1:3,7:8,43:44)], caption = "Sampling Locations and Data")
+knitr::kable(Forecast[c(1:5,7,9,11,13,15,17,19,22,23)], caption = "Sampling Locations and Data")
 
 
 ```
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all', results='asis'}
-today[c(1,2,3,4,6,8,10,12,14,16,18)]
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide', results='asis'}
+Forecast[c(1,2,4:7,11,13,15,17,19,22:23)]
 
-knitr::kable(today[c(1,2,3,4,6,8,10,12,14,16,18)], caption = "Sampling Locations and Data")
+knitr::kable(Forecast[c(1:5,7,9,11,13,15,17,19,22,23)], caption = "Sampling Locations and Data")
 
 ```
 
