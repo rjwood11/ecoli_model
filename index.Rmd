@@ -182,13 +182,20 @@ WSF5 <- xpathSApply(parsed_doc, path = '/html/body/app-root/app-today/one-column
 
 ###########################################################################################################
 
+#Lat<-site_coords[c(1:9),7]
+#Long<-site_coords[c(1:9),8]
+
+#today$Latitude<-Lat
+#today$Longitude<-Long
+
+
 today1<-today
 
 site_no<-c("03433500","03433500","03433500","03432350","03433500","03434500","03431700",
            "03431700","03431060","03431060","0343233905")
 
-Location<-c("Natchez Trace", "Moran Rd. Bridge", "Hwy 100 Boat Launch", "Lowhead Dam",  "Coley Davis", "Hwy 70",             
-            "Richland Creek", "Jackson Blvd", "Whittsett Park", "Mill Creek Greenway", "Lewisburg Pike")
+Location<-c("Natchez Trace", "Moran Rd. Bridge", "Hwy 100 Boat Launch", "Lowhead Dam",  "Coley Davis", "Hwy 70",            
+            "Richland Creek","Jackson Blvd",   "Whittsett Park", "Mill Creek Greenway", "Lewisburg Pike")
 
 LocLookup <- data.frame(Location, site_no)
 
@@ -203,7 +210,21 @@ Forecast$`Stream flow, mean. daily`[5] <- ifelse(is.na(Forecast$`Stream flow, me
 
 Forecast <- Forecast[-c(6,7,10),]
 
+#Lat<-site_coords[c(1:5,7:9),7]
+#Long<-site_coords[c(1:5,7:9),8]
+
+Lat<-c('36.08160', '36.11757',  '36.15122', '36.10167',  '35.89984', '36.01722', '36.05456', '36.12200')
+
+Long<-c('-86.68073', '-86.71905', '-86.85427','-86.86806',   '-86.84289', '-86.89972', '-86.92851', '-87.09889')
+
+Forecast$Latitude<-Lat
+Forecast$Longitude<-Long
+
+
+
 #Forecast$Longitude <- site_coords$Longitude[match(as.numeric(Forecast$Location), pCodeToName$parm_cd)]
+
+
 
 
 ###################################################################################################################################################
@@ -232,7 +253,7 @@ if (a[i]=="Richland Creek") {
 } else {ecoli[i] <- NA}
 }
 
-Forecast$ecoli<-ecoli
+Forecast$ecoli<-signif(ecoli,3)
 
 
 # assign color values based on conditional ecoli values
@@ -251,6 +272,15 @@ Forecast$Status[is.na(Forecast$Status)] = NA
 #site_coords$Status[is.na(site_coords$Status)] = 'Data Unavailable'
 
 cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavailable" = "gray")
+
+
+#Lat<-site_coords[c(1:5,7:9),7]
+#Long<-site_coords[c(1:5,7:9),8]
+
+#Forecast$Latitude<-Lat
+#Forecast$Longitude<-Long
+
+
 
 ```
 
@@ -298,14 +328,51 @@ library(plotly)
 
 #cnum<-colorNumeric(c("green","yellow","red"), domain=site_coords$ecoli)
 
-cfac<-colorFactor(c("green","yellow","red"), domain=Forecast$Status,na.color = "grey")
+cfac<-colorFactor(c("green","yellow","red"), levels=c("Safe","Caution","Warning"),na.color = "grey")
 
 
 
+#p<-leaflet() %>% 
+#  setView(lng = -86.791425, lat = 36.08, zoom = 10) %>%
+#  addTiles() %>%
+#  addCircleMarkers(data=site_coords[c(1:4,6:9),], lat=~Latitude, lng= ~Longitude, color = ~cfac(Forecast$Status))
+
+#p
+
+
+
+library("sf")
+
+#Forecast_new<-Forecast
+
+#Forecast<-Forecast_new
+
+Forecast %<>% 
+  st_as_sf(coords = c("Longitude", "Latitude")) %>% 
+  st_sf(crs = 4326)
+
+Forecast %>% 
+  mutate(popup = paste("<b>Location: </b>", Forecast$Location, 
+                       "<br/>",
+                       "<b>E. coli:</b>", Forecast$ecoli,
+                       "<br/>",
+                       "<b>Status:</b>", Forecast$Status,
+                       "<br/>"))
+
+library(htmltools)
+library("leaflet")
 p<-leaflet() %>% 
-  setView(lng = -86.791425, lat = 36.08, zoom = 10) %>%
-  addTiles() %>%
-  addCircleMarkers(data=site_coords[c(1:4,6:9),], lat=~Latitude, lng= ~Longitude, color = ~cfac(Forecast$Status))
+  addTiles() %>% 
+  addProviderTiles(providers$Esri.NatGeoWorldMap) %>% 
+  setView(lng = -86.791425, lat = 36.08, zoom = 10) %>% 
+  addCircleMarkers(data = Forecast, popup = popup, color=~cfac(as.factor(Forecast$Status))) %>%
+  addWMSTiles(
+    "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
+    layers = "nexrad-n0r-900913",
+    options = WMSTileOptions(format = "image/png", transparent = TRUE),
+    attribution = "Weather data © 2012 IEM Nexrad"
+  )
+
 
 p
 
