@@ -288,7 +288,7 @@ $E. coli = \sqrt{Precipitation} + River Discharge + Dissolved Oxygen^{2} + \sin(
 
 Or, alternatively, a more simplified but graphical illustration of the model:
 
-![Cartoon Diagram](formula_cartoon.png)
+![Cartoon Diagram](equation_graphic.png)
 
 Where precipitation, river discharge, and dissolved oxygen are retrieved from sources such as the United States Geological Survey, which maintains river gauges that report live data, as well as local weather stations that report precipitation. So far, one site on the Harpeth River is functional on our predictive map, with additional locations identified for further expansion of our work that aims to provide informational and educational content about stream health and environmental health along with the impact on human activities.
 
