@@ -1,5 +1,6 @@
 ---
 title: "Harpeth Conservancy's E. coli Forecast"
+options(knitr.table.format = 'markdown')
 ---
 
 ```{r warning=FALSE, setup, include=FALSE}
@@ -384,7 +385,8 @@ p
 
 You can click on the site dots on the map to get more information!
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 #site_coords[c(1:3,7:8,43:44)]
 
 Forecast2<-data.frame(Forecast2,Visualization="")
@@ -424,7 +426,7 @@ names(Forecast2)[c(2,4:5,7,11,13,15,17,19,24:25)]<-t
 
 
 Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
-  kbl(caption = "Sampling Locations and Results") %>%
+  kbl(caption = "Sampling Locations and Results", format="markdown") %>%
   #kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
   kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
                 font_size = 12, html_font = "Cambria") %>%
@@ -444,7 +446,7 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
 
 ```
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
 Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
   kbl(caption = "Sampling Locations and Results") %>%
