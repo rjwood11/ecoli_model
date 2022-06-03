@@ -1,8 +1,5 @@
 ---
 title: "Harpeth Conservancy's E. coli Forecast"
-author: "RJ"
-output: html_document
-always_allow_html: yes
 ---
 
 ```{r warning=FALSE, setup, include=FALSE}
@@ -390,33 +387,64 @@ You can click on the site dots on the map to get more information!
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
 #site_coords[c(1:3,7:8,43:44)]
 
+Forecast2<-data.frame(Forecast2,Visualization="")
 
+row.names(Forecast2)<-NULL
+
+Forecast2$dateTime<-format(as.Date(Forecast2$dateTime, format="%Y-%m-%d"), "%B %d %Y")
 
 
 t<-c("Location","Date","Water Temperature (C)","pH","Precipitation (in)","River Flow (cfs)","Water Height (ft)", "Specific Conductivity" ,"Dissolved Oxygen (mg/L)", "E. coli (MPN/100 mL)", "Status")
 
 names(Forecast2)[c(2,4:5,7,11,13,15,17,19,24:25)]<-t
 
-Forecast2<-data.frame(Forecast2,Visualization="")
-
-Forecast2$Date<-format(as.Date(Forecast2$Date, format="%Y-%m-%d"), "%B %d %Y")
 
 
-k<-formattable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], list(
-  "River Flow (cfs)" = color_tile("white", "blue"),
-  "E. coli (MPN/100 mL)" = color_tile("white", "red"),
-  Status = formatter("span", style = x ~ formattable::style(font.weight="bold", color = ifelse(x == "Safe", "green", 
-    ifelse(x == "Caution", "yellow", "red"))))
-))
-
-print(k)
-
-knitr::kable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], caption = "Sampling Locations and Data", align = "llccccccrr")
 
 
-library(DT)
-DT::datatable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)],rownames=F, fillContainer = getOption("DT.fillContainer", NULL), options = list(pageLength = 8))
 
+
+
+
+
+
+
+
+#knitr::kable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], caption = "Sampling Locations and Data", align = "llccccccrr")
+
+
+
+
+
+
+
+
+
+
+
+
+Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
+  kbl(caption = "Sampling Locations and Results") %>%
+  #kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
+                font_size = 12, html_font = "Cambria") %>%
+  column_spec(12, image = spec_pointrange(
+    x = Forecast2$`E. coli (MPN/100 mL)`, 
+    xmin = Forecast2$`E. coli (MPN/100 mL)`-0.1*Forecast2$`E. coli (MPN/100 mL)`, 
+    xmax = Forecast2$`E. coli (MPN/100 mL)`+0.1*Forecast2$`E. coli (MPN/100 mL)`, 
+    vline = 235))%>% 
+  column_spec(1, border_right = T) %>%
+  column_spec(11,bold=T) %>%
+  column_spec(2,width="5cm")
+  
+
+
+
+
+
+```
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
 
 Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
   kbl(caption = "Sampling Locations and Results") %>%
@@ -424,28 +452,46 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
   kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
                 font_size = 12, html_font = "Cambria") %>% 
   column_spec(1, border_right = T) %>%
-  column_spec(11, color = spec_color(Forecast2$`E. coli (MPN/100 mL)`[1:8])) %>%
-  column_spec(12,bold=T)
-
-
-
-Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
-  kbl(caption = "Sampling Locations and Results",booktabs = T) %>%
-  kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
-  #kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
-  #              font_size = 12, html_font = "Cambria") %>%
-  column_spec(13, image = spec_pointrange(
-    x = Forecast2$`E. coli (MPN/100 mL)`, 
-    xmin = Forecast2$`E. coli (MPN/100 mL)`-(0.1*Forecast2$`E. coli (MPN/100 mL)`), 
-    xmax = Forecast2$`E. coli (MPN/100 mL)`+(0.1*Forecast2$`E. coli (MPN/100 mL)`), 
-    vline = 235)
-    )
-
-
+  column_spec(11,bold=T)
 
 
 
 ```
+
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+
+formattable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], list(
+  "River Flow (cfs)" = color_tile("white", "blue"),
+  "E. coli (MPN/100 mL)" = color_tile("white", "red"),
+  Status = formatter("span", style = x ~ formattable::style(font.weight="bold", color = ifelse(x == "Safe", "green", 
+    ifelse(x == "Caution", "yellow", "red"))))
+))
+
+
+
+```
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+
+
+
+
+DT::datatable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)],rownames=F, fillContainer = getOption("DT.fillContainer", NULL), options = list(pageLength = 8))
+
+
+```
+
+
+
+
+
+
+
+
+
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
