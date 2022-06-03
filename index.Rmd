@@ -1,8 +1,11 @@
 ---
 title: "Harpeth Conservancy's E. coli Forecast"
+author: "RJ"
+output: html_document
+always_allow_html: yes
 ---
 
-```{r, setup, include=FALSE, warning=FALSE}
+```{r warning=FALSE, setup, include=FALSE}
 library(tidyverse)
 library(osmdata) 
 library(ggmap)
@@ -15,6 +18,10 @@ library(rgdal)
 library(leaflet)
 library(plotly)
 library(formattable)
+library(htmltools)
+library(leaflet)
+library(sf)
+library(kableExtra)
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
@@ -58,9 +65,6 @@ river = getbb("Nashville Tennessee") %>%
   osmdata_sf()
 
 ```
-
-
-
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
@@ -285,7 +289,6 @@ cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavai
 
 ```
 
-
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE,fig.keep='all'}
 
 library(plotly)
@@ -340,9 +343,8 @@ cfac<-colorFactor(c("green","yellow","red"), levels=c("Safe","Caution","Warning"
 
 #p
 
+Forecast2<-Forecast
 
-
-library("sf")
 
 Forecast %<>% 
   st_as_sf(coords = c("Longitude", "Latitude")) %>% 
@@ -356,8 +358,7 @@ Forecast<-Forecast %>%
                        "<b>Status:</b>", Forecast$Status,
                        "<br/>"))
 
-library(htmltools)
-library("leaflet")
+
 p<-leaflet() %>% 
   addTiles() %>% 
   addProviderTiles(providers$OpenStreetMap, group = 'Open SM')  %>%
@@ -365,7 +366,7 @@ p<-leaflet() %>%
   addProviderTiles(providers$Esri.NatGeoWorldMap, group = 'NG World') %>%
   addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
   setView(lng = -86.791425, lat = 36.08, zoom = 10) %>% 
-  addCircleMarkers(data = Forecast, popup = ~popup, color=~cfac(Forecast$Status)) %>%
+  addCircleMarkers(data = Forecast, popup = ~popup, color=~cfac(Forecast$Status),fill=T) %>%
   addWMSTiles(
     "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
     layers = "nexrad-n0r-900913",
@@ -374,7 +375,7 @@ p<-leaflet() %>%
   addLegend('topright', pal = cfac, values = as.character(c("Safe","Caution","Warning","Data Unavailable")),
             title = 'Public Safety Status',
             opacity = 1) %>%
-  addLegend("bottomleft", colors = c( 'blue', 'green', 'yellow', 'orange', "red"), values = c(5,15,25,35,45,55,65),
+  addLegend("bottomright", colors = c( 'blue', 'green', 'yellow', 'orange', "red"), values = c(5,15,25,35,45,55,65),
             title = "Current Precipitation",
             labels = c("Less Dense", "", "","", "More Dense"),
             opacity = 1)
@@ -392,29 +393,59 @@ You can click on the site dots on the map to get more information!
 
 
 
-t<-c("Location","Date","Water Temperature (C)","pH","Precipitation (in)","River Flow (cfs)","Water Height (ft)","Dissolved Oxygen (mg/L)", "E. coli (MPN/100 mL)", "Status")
+t<-c("Location","Date","Water Temperature (C)","pH","Precipitation (in)","River Flow (cfs)","Water Height (ft)", "Specific Conductivity" ,"Dissolved Oxygen (mg/L)", "E. coli (MPN/100 mL)", "Status")
 
-names(Forecast)[c(2,4:5,7,11,13,15,19,22,23)]<-t
+names(Forecast2)[c(2,4:5,7,11,13,15,17,19,24:25)]<-t
+
+Forecast2<-data.frame(Forecast2,Visualization="")
+
+Forecast2$Date<-format(as.Date(Forecast2$Date, format="%Y-%m-%d"), "%B %d %Y")
 
 
-
-
-k<-formattable(Forecast[c(2,4:5,7,11,13,15,19,22,23)], list(
+k<-formattable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], list(
   "River Flow (cfs)" = color_tile("white", "blue"),
   "E. coli (MPN/100 mL)" = color_tile("white", "red"),
   Status = formatter("span", style = x ~ formattable::style(font.weight="bold", color = ifelse(x == "Safe", "green", 
     ifelse(x == "Caution", "yellow", "red"))))
 ))
 
-k
+print(k)
 
-#knitr::kable(Forecast[c(2,4:5,7,11,13,15,19,22,23)], caption = "Sampling Locations and Data", align = "llccccccrr")
+knitr::kable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], caption = "Sampling Locations and Data", align = "llccccccrr")
+
+
+library(DT)
+DT::datatable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)],rownames=F, fillContainer = getOption("DT.fillContainer", NULL), options = list(pageLength = 8))
+
+
+Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
+  kbl(caption = "Sampling Locations and Results") %>%
+  #kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
+                font_size = 12, html_font = "Cambria") %>% 
+  column_spec(1, border_right = T) %>%
+  column_spec(11, color = spec_color(Forecast2$`E. coli (MPN/100 mL)`[1:8])) %>%
+  column_spec(12,bold=T)
+
+
+
+Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
+  kbl(caption = "Sampling Locations and Results",booktabs = T) %>%
+  kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
+  #kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
+  #              font_size = 12, html_font = "Cambria") %>%
+  column_spec(13, image = spec_pointrange(
+    x = Forecast2$`E. coli (MPN/100 mL)`, 
+    xmin = Forecast2$`E. coli (MPN/100 mL)`-(0.1*Forecast2$`E. coli (MPN/100 mL)`), 
+    xmax = Forecast2$`E. coli (MPN/100 mL)`+(0.1*Forecast2$`E. coli (MPN/100 mL)`), 
+    vline = 235)
+    )
+
+
+
 
 
 ```
-
-
-
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
@@ -438,4 +469,3 @@ saveWidget(frameableWidget(p), "map.html", selfcontained = T, libdir = "lib")
 
 
 ```
-
