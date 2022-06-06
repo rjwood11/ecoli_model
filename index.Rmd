@@ -1,6 +1,5 @@
 ---
 title: "Harpeth Conservancy's E. coli Forecast"
-
 ---
 
 ```{r warning=FALSE, setup, include=FALSE}
@@ -33,11 +32,11 @@ The last update happened at `r time` Central Time.
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
-big_streets = getbb("Nashville Tennessee") %>%
-   opq() %>%
-   add_osm_feature(key = "highway", 
-                   value = c("motorway", "trunk", "primary",  "primary_link", "trunk_link")) %>%
-osmdata_sf()
+#big_streets = getbb("Nashville Tennessee") %>%
+#   opq() %>%
+#   add_osm_feature(key = "highway", 
+#                   value = c("motorway", "trunk", "primary",  "primary_link", "trunk_link")) %>%
+#osmdata_sf()
 
 #big_streets = getbb("Nashville Tennessee") %>%
 #  opq() %>%
@@ -58,10 +57,10 @@ osmdata_sf()
 #                 value = c("secondary", "tertiary", "secondary_link", "tertiary_link")) %>%
 # osmdata_sf()
 
-river = getbb("Nashville Tennessee") %>%
-  opq()%>%
-  add_osm_feature(key = "waterway", value = "river") %>%
-  osmdata_sf()
+#river = getbb("Nashville Tennessee") %>%
+#  opq()%>%
+#  add_osm_feature(key = "waterway", value = "river") %>%
+#  osmdata_sf()
 
 ```
 
@@ -258,7 +257,7 @@ if (a[i]=="Richland Creek") {
 }
 
 Forecast$ecoli<-signif(ecoli,3)
-
+Forecast$Precipitation<-PRCP
 
 # assign color values based on conditional ecoli values
 
@@ -290,7 +289,6 @@ cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavai
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE,fig.keep='all'}
 
-library(plotly)
 
 #map = {
 #ggplot() +
@@ -344,7 +342,7 @@ cfac<-colorFactor(c("green","yellow","red"), levels=c("Safe","Caution","Warning"
 
 Forecast2<-Forecast
 
-Forecast<-Forecast2
+#Forecast<-Forecast2
 
 Forecast %<>% 
   st_as_sf(coords = c("Longitude", "Latitude")) %>% 
@@ -378,8 +376,7 @@ p<-leaflet() %>%
   addLegend("bottomright", colors = c( 'blue', 'green', 'yellow', 'orange', "red"), values = c(5,15,25,35,45,55,65),
             title = "Current Precipitation",
             labels = c("Less Dense", "", "","", "More Dense"),
-            opacity = 1) %>%
-  addPolylines(data = river[["osm_lines"]][["geometry"]], label = river[["osm_lines"]][["name"]])
+            opacity = 1) 
 
 
 p
@@ -391,7 +388,7 @@ p
 You can click on the site dots on the map to get more information!
 
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, fig.keep='all'}
 #site_coords[c(1:3,7:8,43:44)]
 
 Forecast2<-data.frame(Forecast2,Visualization="")
@@ -467,7 +464,7 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
 
 
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 
 formattable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], list(
   "River Flow (cfs)" = color_tile("white", "blue"),
