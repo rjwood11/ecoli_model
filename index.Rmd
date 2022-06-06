@@ -365,7 +365,7 @@ p<-leaflet() %>%
   addProviderTiles(providers$Esri.NatGeoWorldMap, group = 'NG World') %>%
   addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
   setView(lng = -86.791425, lat = 36.08, zoom = 10) %>% 
-  addCircleMarkers(data = Forecast, popup = ~popup, color=~cfac(Forecast$Status),fill=T) %>%
+  addCircleMarkers(data = Forecast, popup = ~popup, color=~cfac(Forecast$Status),fill=T, stroke=F, fillOpacity = 1.0) %>%
   addWMSTiles(
     "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
     layers = "nexrad-n0r-900913",
