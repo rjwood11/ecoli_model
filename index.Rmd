@@ -20,6 +20,7 @@ library(htmltools)
 library(leaflet)
 library(sf)
 library(kableExtra)
+library(knitr)
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
