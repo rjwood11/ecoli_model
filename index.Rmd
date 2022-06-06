@@ -427,10 +427,10 @@ names(Forecast2)[c(2,4:5,7,11,13,15,17,19,24:25)]<-t
 
 
 Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
-  kbl(caption = "Sampling Locations and Results", format="markdown") %>%
+  kbl(caption = "Sampling Locations and Results") %>%
   #kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
-  kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
-                font_size = 12, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped","condensed"),
+                font_size = 12, full_width=F,position = "left", html_font = "Cambria") %>%
   column_spec(12, image = spec_pointrange(
     x = Forecast2$`E. coli (MPN/100 mL)`, 
     xmin = Forecast2$`E. coli (MPN/100 mL)`-0.1*Forecast2$`E. coli (MPN/100 mL)`, 
@@ -438,7 +438,7 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
     vline = 235))%>% 
   column_spec(1, border_right = T) %>%
   column_spec(11,bold=T) %>%
-  column_spec(2,width="5cm")
+  column_spec(2,width="2cm")
   
 
 
