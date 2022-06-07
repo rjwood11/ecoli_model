@@ -448,7 +448,7 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
 
 ```
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, fig.keep='all'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, fig.keep='all', results='hide'}
 
 Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
   kbl(caption = "Sampling Locations and Results") %>%
