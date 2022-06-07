@@ -448,7 +448,7 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
 
 ```
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, fig.keep='all'}
 
 Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
   kbl(caption = "Sampling Locations and Results") %>%
@@ -464,7 +464,14 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
 
 
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
+
+
+
+
+
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
 
 formattable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], list(
   "River Flow (cfs)" = color_tile("white", "blue"),
