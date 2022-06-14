@@ -198,7 +198,7 @@ site_no<-c("03433500","03433500","03433500","03432350","03433500","03434500","03
            "03431700","03431060","03431060","0343233905")
 
 Location<-c("Natchez Trace", "Moran Rd. Bridge", "Hwy 100 Boat Launch", "Lowhead Dam",  "Coley Davis", "Hwy 70",            
-            "Richland Creek","Jackson Blvd",   "Whittsett Park", "Mill Creek Greenway", "Lewisburg Pike")
+            "Richland Creek","Jackson Blvd",   "Whitsett Park", "Mill Creek Greenway", "Lewisburg Pike")
 
 LocLookup <- data.frame(Location, site_no)
 
