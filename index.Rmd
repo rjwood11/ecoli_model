@@ -28,7 +28,12 @@ time = lubridate::with_tz(Sys.time(), "CST6CDT")
 
 ```
 
+THIS PAGE IS A DRAFT
+
+Predictive Models and E. coli Forecasts will be validated in the coming months.
+
 The last update happened at `r time` Central Time.
+
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
 
