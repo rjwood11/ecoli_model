@@ -1,21 +1,26 @@
 "","Date","Location","site_no","agency_cd","Water Temperature (C)","pH","Inorganic.nitrogen..nitrate.and.nitrite.","Precipitation (in)","River Flow (cfs)","Water Height (ft)","Specific Conductivity","Dissolved Oxygen (mg/L)","Turbidity (NTUs)","E. coli Sample (MPN/100 mL)","SampleTime","E. coli Prediction (MPN/100 mL)","PredictionTime","Status"
-"1","2022-06-17","Hwy 100 Boat Launch","03433500","USGS",NA,NA,NA,0,110,1.51,NA,NA,20,200,14:10:00,19.8,"16:30:00","Safe"
-"2","2022-06-17","Hwy 100 Boat Launch","03433500","USGS",NA,NA,NA,0,103,1.49,NA,NA,20,200,14:10:00,9.85,"18:30:00","Safe"
+"1","2022-06-17","Hwy 100 Boat Launch","03433500","USGS",NA,NA,NA,0,103,1.49,NA,NA,20,200,14:10:00,9.85,"18:30:00","Safe"
+"2","2022-06-17","Hwy 100 Boat Launch","03433500","USGS",NA,NA,NA,0,110,1.51,NA,NA,20,200,14:10:00,19.8,"16:30:00","Safe"
 "3","2022-06-17","Hwy 100 Boat Launch","03433500","USGS",NA,NA,NA,0,103,1.49,NA,NA,20,200,14:10:00,9.85,"19:30:00","Safe"
 "4","2022-06-17","Hwy 100 Boat Launch","03433500","USGS",NA,NA,NA,0,103,1.49,NA,NA,20,200,14:10:00,9.85,"20:30:00","Safe"
-"5","2022-06-17","Jackson Blvd","03431700","USGS",NA,NA,NA,0,25.7,0.92,NA,NA,10,300,NA,NA,"16:45:00",NA
-"6","2022-06-17","Jackson Blvd","03431700","USGS",NA,NA,NA,0,11.3,0.74,NA,NA,10,300,NA,NA,"18:45:00",NA
-"7","2022-06-17","Jackson Blvd","03431700","USGS",NA,NA,NA,0,14.9,0.79,NA,NA,10,300,NA,NA,"19:45:00",NA
-"8","2022-06-17","Jackson Blvd","03431700","USGS",NA,NA,NA,0,16.4,0.81,NA,NA,10,300,NA,NA,"20:45:00",NA
-"9","2022-06-17","Mill Creek Greenway","03431060","USGS",NA,NA,NA,0,26.4,2.61,NA,NA,20,80,NA,NA,"17:00:00",NA
-"10","2022-06-17","Mill Creek Greenway","03431060","USGS",NA,NA,NA,0,82.5,3.06,NA,NA,20,80,NA,NA,"18:00:00",NA
-"11","2022-06-17","Mill Creek Greenway","03431060","USGS",NA,NA,NA,0,77.6,3.03,NA,NA,20,80,NA,NA,"19:00:00",NA
-"12","2022-06-17","Mill Creek Greenway","03431060","USGS",NA,NA,NA,0,62.3,2.93,NA,NA,20,80,NA,NA,"20:00:00",NA
-"13","2022-06-17","Moran Rd. Bridge","03433500","USGS",NA,NA,NA,0,110,1.51,NA,NA,5,400,NA,NA,"16:30:00",NA
-"14","2022-06-17","Moran Rd. Bridge","03433500","USGS",NA,NA,NA,0,103,1.49,NA,NA,5,400,NA,NA,"18:30:00",NA
-"15","2022-06-17","Moran Rd. Bridge","03433500","USGS",NA,NA,NA,0,103,1.49,NA,NA,5,400,NA,NA,"19:30:00",NA
+"5","2022-06-17","Hwy 100 Boat Launch","03433500","USGS",NA,NA,NA,0,101,1.48,NA,NA,20,200,14:10:00,7.02,"21:30:00","Safe"
+"6","2022-06-17","Jackson Blvd","03431700","USGS",NA,NA,NA,0,16.4,0.81,NA,NA,10,300,NA,NA,"20:45:00",NA
+"7","2022-06-17","Jackson Blvd","03431700","USGS",NA,NA,NA,0,25.7,0.92,NA,NA,10,300,NA,NA,"16:45:00",NA
+"8","2022-06-17","Jackson Blvd","03431700","USGS",NA,NA,NA,0,12.7,0.76,NA,NA,10,300,NA,NA,"21:45:00",NA
+"9","2022-06-17","Jackson Blvd","03431700","USGS",NA,NA,NA,0,11.3,0.74,NA,NA,10,300,NA,NA,"18:45:00",NA
+"10","2022-06-17","Jackson Blvd","03431700","USGS",NA,NA,NA,0,14.9,0.79,NA,NA,10,300,NA,NA,"19:45:00",NA
+"11","2022-06-17","Mill Creek Greenway","03431060","USGS",NA,NA,NA,0,26.4,2.61,NA,NA,20,80,NA,NA,"17:00:00",NA
+"12","2022-06-17","Mill Creek Greenway","03431060","USGS",NA,NA,NA,0,82.5,3.06,NA,NA,20,80,NA,NA,"18:00:00",NA
+"13","2022-06-17","Mill Creek Greenway","03431060","USGS",NA,NA,NA,0,77.6,3.03,NA,NA,20,80,NA,NA,"19:00:00",NA
+"14","2022-06-17","Mill Creek Greenway","03431060","USGS",NA,NA,NA,0,62.3,2.93,NA,NA,20,80,NA,NA,"20:00:00",NA
+"15","2022-06-17","Mill Creek Greenway","03431060","USGS",NA,NA,NA,0,65.2,2.95,NA,NA,20,80,NA,NA,"21:00:00",NA
 "16","2022-06-17","Moran Rd. Bridge","03433500","USGS",NA,NA,NA,0,103,1.49,NA,NA,5,400,NA,NA,"20:30:00",NA
-"17","2022-06-17","Richland Creek","03431700","USGS",NA,NA,NA,0,25.7,0.92,NA,NA,40,500,08:00:00,266,"16:45:00","Warning"
-"18","2022-06-17","Richland Creek","03431700","USGS",NA,NA,NA,0,11.3,0.74,NA,NA,40,500,08:00:00,343,"18:45:00","Warning"
-"19","2022-06-17","Richland Creek","03431700","USGS",NA,NA,NA,0,14.9,0.79,NA,NA,40,500,08:00:00,545,"19:45:00","Warning"
-"20","2022-06-17","Richland Creek","03431700","USGS",NA,NA,NA,0,16.4,0.81,NA,NA,40,500,08:00:00,672,"20:45:00","Warning"
+"17","2022-06-17","Moran Rd. Bridge","03433500","USGS",NA,NA,NA,0,110,1.51,NA,NA,5,400,NA,NA,"16:30:00",NA
+"18","2022-06-17","Moran Rd. Bridge","03433500","USGS",NA,NA,NA,0,101,1.48,NA,NA,5,400,NA,NA,"21:30:00",NA
+"19","2022-06-17","Moran Rd. Bridge","03433500","USGS",NA,NA,NA,0,103,1.49,NA,NA,5,400,NA,NA,"19:30:00",NA
+"20","2022-06-17","Moran Rd. Bridge","03433500","USGS",NA,NA,NA,0,103,1.49,NA,NA,5,400,NA,NA,"18:30:00",NA
+"21","2022-06-17","Richland Creek","03431700","USGS",NA,NA,NA,0,14.9,0.79,NA,NA,40,500,08:00:00,545,"19:45:00","Warning"
+"22","2022-06-17","Richland Creek","03431700","USGS",NA,NA,NA,0,16.4,0.81,NA,NA,40,500,08:00:00,672,"20:45:00","Warning"
+"23","2022-06-17","Richland Creek","03431700","USGS",NA,NA,NA,0,25.7,0.92,NA,NA,40,500,08:00:00,266,"16:45:00","Warning"
+"24","2022-06-17","Richland Creek","03431700","USGS",NA,NA,NA,0,11.3,0.74,NA,NA,40,500,08:00:00,343,"18:45:00","Warning"
+"25","2022-06-17","Richland Creek","03431700","USGS",NA,NA,NA,0,12.7,0.76,NA,NA,40,500,08:00:00,672,"21:45:00","Warning"
