@@ -262,7 +262,7 @@ if (a[i]=="Richland Creek") {
 }
 
 Forecast$ecoli<-signif(ecoli,3)
-Forecast$Precipitation<-PRCP
+Forecast$Precipitation<-as.numeric(PRCP)
 
 # assign color values based on conditional ecoli values
 
@@ -347,6 +347,8 @@ cfac<-colorFactor(c("green","yellow","red"), levels=c("Safe","Caution","Warning"
 
 Forecast2<-Forecast
 
+
+
 #Forecast<-Forecast2
 
 Forecast %<>% 
@@ -400,6 +402,8 @@ Forecast2<-data.frame(Forecast2,Visualization="")
 
 row.names(Forecast2)<-NULL
 
+ForecastRecord<-Forecast2
+
 Forecast2$dateTime<-format(as.Date(Forecast2$dateTime, format="%Y-%m-%d"), "%B %d %Y")
 
 
@@ -407,7 +411,7 @@ t<-c("Location","Date","Water Temperature (C)","pH","Precipitation (in)","River 
 
 names(Forecast2)[c(2,4:5,7,11,13,15,17,19,24:25)]<-t
 
-
+names(ForecastRecord)[c(2,4:5,7,11,13,15,17,19,24:25)]<-t
 
 
 
@@ -450,7 +454,6 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
 
 
 
-
 ```
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, fig.keep='all', results='hide'}
@@ -462,6 +465,42 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
                 font_size = 12, html_font = "Cambria") %>% 
   column_spec(1, border_right = T) %>%
   column_spec(11,bold=T)
+
+
+
+#TrackForecast<-ForecastRecord[c(1,2,3,4:5,7,9,11,13,15,17,19,21,22,23,24,25)] #Activate to reset Forecast Tracker
+
+#write.csv(TrackForecast,"TrackForecast.csv")
+
+
+#library(readr)
+#TrackForecast <- read_csv("TrackForecast.csv", 
+#    col_types = cols(...1 = col_skip(), dateTime = col_datetime(format = "%Y-%m-%d %H:%M:%S"), 
+#        `Temperature, water` = col_number(), 
+#        pH = col_number(), `Inorganic nitrogen (nitrate and nitrite)` = col_number(), 
+#        Precipitation = col_number(), `Stream flow, mean. daily` = col_number(), 
+#        `Height, gage` = col_number(), `Specific conductance` = col_number(), 
+#        Oxygen = col_number(), ecoli = col_number()))
+
+TrackForecast <- read_csv("TrackForecast.csv", 
+    col_types = cols(...1 = col_skip(), Date = col_datetime(format = "%Y-%m-%d %H:%M:%S"), 
+        `Water Temperature (C)` = col_number(), 
+        pH = col_number(), Inorganic.nitrogen..nitrate.and.nitrite. = col_number(), 
+        `Precipitation (in)` = col_number(), 
+        `River Flow (cfs)` = col_number(), 
+        `Water Height (ft)` = col_number(), 
+        `Specific Conductivity` = col_number(), 
+        `Dissolved Oxygen (mg/L)` = col_number(), 
+        Latitude = col_character(), Longitude = col_character(), 
+        `E. coli (MPN/100 mL)` = col_number()))
+
+
+
+
+TrackForecast[c((nrow(TrackForecast) + 1):(nrow(TrackForecast) + nrow(ForecastRecord))),] <- ForecastRecord[c(1,2,3,4:5,7,9,11,13,15,17,19,21,22,23,24,25)]
+
+
+write.csv(TrackForecast,"TrackForecast.csv")
 
 
 
