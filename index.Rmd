@@ -456,15 +456,15 @@ Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
 
 ```
 
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, fig.keep='all', results='hide'}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, fig.keep='all'}
 
-Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
-  kbl(caption = "Sampling Locations and Results") %>%
-  #kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
-  kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
-                font_size = 12, html_font = "Cambria") %>% 
-  column_spec(1, border_right = T) %>%
-  column_spec(11,bold=T)
+#Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
+#  kbl(caption = "Sampling Locations and Results") %>%
+#  #kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
+#  kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
+#                font_size = 12, html_font = "Cambria") %>% 
+#  column_spec(1, border_right = T) %>%
+#  column_spec(11,bold=T)
 
 
 
@@ -503,6 +503,24 @@ TrackForecast[c((nrow(TrackForecast) + 1):(nrow(TrackForecast) + nrow(ForecastRe
 write.csv(TrackForecast,"TrackForecast.csv")
 
 
+CSSample <- read_csv("CSSample.csv", col_types = cols(Date = col_date(format = "%m/%d/%Y"), 
+    Time = col_time(format = "%H:%M"), Sample_Number = col_skip(), 
+    `Turbidity (NTUs)` = col_number(), `E. coli Sample (MPN/100 mL)` = col_number()))
+
+CSSample$Date<-format(as.Date(CSSample$Date, format="%Y-%m-%d"))
+
+
+TrackForecast$Time <- format(as.POSIXct(TrackForecast$Date), format = "%H:%M:%S") 
+TrackForecast$Date<-format(as.Date(TrackForecast$Date, format="%Y-%m-%d"))
+
+ForecastResults<-merge(CSSample,TrackForecast, by=c("Date","Location"))
+
+ForecastResults
+
+data.table::setnames(ForecastResults, old = c("Time.x","Time.y","E. coli (MPN/100 mL)"),
+                     new = c("SampleTime","PredictionTime","E. coli Prediction (MPN/100 mL)"))
+
+write.csv(ForecastResults[,c(1,2,6:15,4,5,3,19,21,20)], "ForecastResults.csv")
 
 ```
 
@@ -534,7 +552,19 @@ formattable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], list(
 
 
 
-DT::datatable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)],rownames=F, fillContainer = getOption("DT.fillContainer", NULL), options = list(pageLength = 8))
+#DT::datatable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)],rownames=F, fillContainer = getOption("DT.fillContainer", NULL), options = list(pageLength = 8))
+
+
+
+formattable(TrackForecast, list(
+  "River Flow (cfs)" = color_tile("white", "blue"),
+  "E. coli (MPN/100 mL)" = color_tile("white", "red"),
+  Status = formatter("span", style = x ~ formattable::style(font.weight="bold", color = ifelse(x == "Safe", "green", 
+    ifelse(x == "Caution", "yellow", "red"))))
+))
+
+
+
 
 
 ```

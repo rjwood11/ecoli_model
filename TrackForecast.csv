@@ -1,9 +1,9 @@
 "","site_no","Location","agency_cd","Date","Water Temperature (C)","pH","Inorganic.nitrogen..nitrate.and.nitrite.","Precipitation (in)","River Flow (cfs)","Water Height (ft)","Specific Conductivity","Dissolved Oxygen (mg/L)","tz_cd","Latitude","Longitude","E. coli (MPN/100 mL)","Status"
-"1","03431060","Whitsett Park","USGS",2022-06-17 16:00:00,NA,NA,NA,0.02,14.5,2.45,NA,NA,"UTC","36.08160","-86.68073",NA,NA
-"2","03431060","Mill Creek Greenway","USGS",2022-06-17 16:00:00,NA,NA,NA,0.02,14.5,2.45,NA,NA,"UTC","36.11757","-86.71905",NA,NA
-"3","03431700","Richland Creek","USGS",2022-06-17 16:45:00,NA,NA,NA,0.02,NA,0.92,NA,NA,"UTC","36.15122","-86.85427",573,"Warning"
-"4","03431700","Jackson Blvd","USGS",2022-06-17 16:45:00,NA,NA,NA,0.02,NA,0.92,NA,NA,"UTC","36.10167","-86.86806",NA,NA
-"5","0343233905","Lewisburg Pike","USGS",2022-06-17 16:45:00,27.5,8.1,NA,0.02,15.1,1.93,460,6.4,"UTC","35.89984","-86.84289",63,"Safe"
-"6","03433500","Moran Rd. Bridge","USGS",2022-06-17 16:30:00,NA,NA,NA,0.02,110,1.51,NA,NA,"UTC","36.01722","-86.89972",NA,NA
-"7","03433500","Hwy 100 Boat Launch","USGS",2022-06-17 16:30:00,NA,NA,NA,0.02,110,1.51,NA,NA,"UTC","36.05456","-86.92851",149,"Safe"
-"8","03434500","Hwy 70","USGS",2022-06-17 16:00:00,NA,NA,NA,0.02,219,1.48,NA,NA,"UTC","36.12200","-87.09889",NA,NA
+"1","03431060","Whitsett Park","USGS",2022-06-17 17:00:00,NA,NA,NA,0,26.4,2.61,NA,NA,"UTC","36.08160","-86.68073",NA,NA
+"2","03431060","Mill Creek Greenway","USGS",2022-06-17 17:00:00,NA,NA,NA,0,26.4,2.61,NA,NA,"UTC","36.11757","-86.71905",NA,NA
+"3","03431700","Richland Creek","USGS",2022-06-17 16:45:00,NA,NA,NA,0,25.7,0.92,NA,NA,"UTC","36.15122","-86.85427",266,"Warning"
+"4","03431700","Jackson Blvd","USGS",2022-06-17 16:45:00,NA,NA,NA,0,25.7,0.92,NA,NA,"UTC","36.10167","-86.86806",NA,NA
+"5","0343233905","Lewisburg Pike","USGS",2022-06-17 17:00:00,27.5,8.1,NA,0,14.6,1.92,460,6.4,"UTC","35.89984","-86.84289",60.1,"Safe"
+"6","03433500","Moran Rd. Bridge","USGS",2022-06-17 16:30:00,NA,NA,NA,0,110,1.51,NA,NA,"UTC","36.01722","-86.89972",NA,NA
+"7","03433500","Hwy 100 Boat Launch","USGS",2022-06-17 16:30:00,NA,NA,NA,0,110,1.51,NA,NA,"UTC","36.05456","-86.92851",19.8,"Safe"
+"8","03434500","Hwy 70","USGS",2022-06-17 16:00:00,NA,NA,NA,0,219,1.48,NA,NA,"UTC","36.12200","-87.09889",NA,NA

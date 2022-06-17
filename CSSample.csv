@@ -1,0 +1,243 @@
+Date,Time,Sample_Number,Location,Turbidity (NTUs),E. coli Sample (MPN/100 mL)
+6/25/2020,9:10,1,Hwy 100 Boat Launch,,1
+6/25/2020,9:25,2,Natchez Trace,,1
+6/25/2020,9:35,3,Moran Rd. Bridge,,1
+6/25/2020,10:10,4,Lowhead Dam,,1
+7/1/2020,10:30,1,Lowhead Dam,,2400
+7/1/2020,10:54,2,Moran Rd. Bridge,,2400
+7/1/2020,11:04,3,Natchez Trace,,2400
+7/1/2020,11:22,4,Hwy 100 Boat Launch,,2400
+7/1/2020,11:40,5,Coley Davis,,1400
+7/2/2020,10:05,1,Coley Davis,,980
+7/2/2020,10:15,2,Hwy 100 Boat Launch,,920
+7/2/2020,10:35,3,Natchez Trace,,1300
+7/2/2020,10:42,4,Moran Rd. Bridge,,1400
+7/2/2020,11:10,5,Lowhead Dam,,1100
+7/8/2020,9:35,1,Coley Davis,,330
+7/8/2020,9:50,2,Hwy 100 Boat Launch,,230
+7/8/2020,10:15,3,Natchez Trace,,370
+7/8/2020,10:25,4,Moran Rd. Bridge,,290
+7/8/2020,10:55,5,Lowhead Dam,,550
+7/10/2020,9:05,1,Coley Davis,,230
+7/10/2020,9:20,2,Hwy 100 Boat Launch,,240
+7/10/2020,9:35,3,Natchez Trace,,170
+7/10/2020,9:45,4,Moran Rd. Bridge,,280
+7/10/2020,10:04,5,Lowhead Dam,,290
+7/16/2020,9:20,1,Coley Davis,,190
+7/16/2020,9:35,2,Hwy 100 Boat Launch,,76
+7/16/2020,9:45,3,Natchez Trace,,68
+7/16/2020,10:00,4,Moran Rd. Bridge,,78
+7/16/2020,10:25,5,Lowhead Dam,,170
+7/17/2020,9:00,1,Coley Davis,,340
+7/17/2020,9:14,2,Hwy 100 Boat Launch,,78
+7/17/2020,9:26,3,Natchez Trace,,150
+7/17/2020,9:38,4,Moran Rd. Bridge,,120
+7/17/2020,9:57,5,Lowhead Dam,,190
+7/23/2020,9:49,1,Coley Davis,,120
+7/23/2020,10:06,2,Hwy 100 Boat Launch,,74
+7/23/2020,10:18,3,Natchez Trace,,330
+7/23/2020,10:30,4,Moran Rd. Bridge,,2400
+7/23/2020,10:53,5,Lowhead Dam,,870
+7/29/2020,8:40,1,Coley Davis,,160
+7/29/2020,8:57,2,Hwy 100 Boat Launch,,48
+7/29/2020,9:12,3,Natchez Trace,,100
+7/29/2020,9:20,4,Moran Rd. Bridge,,70
+7/29/2020,9:46,5,Lowhead Dam,,110
+8/5/2020,9:30,1,Coley Davis,,310
+8/5/2020,9:50,2,Hwy 100 Boat Launch,,290
+8/5/2020,10:07,3,Natchez Trace,,290
+8/5/2020,10:18,4,Moran Rd. Bridge,,370
+8/5/2020,10:36,5,Lowhead Dam,,230
+8/12/2020,9:56,1,Coley Davis,,150
+8/12/2020,10:17,2,Hwy 70,,43
+8/12/2020,10:45,3,Hwy 100 Boat Launch,,250
+8/12/2020,11:16,4,Lowhead Dam,,210
+8/12/2020,12:04,5,Percy Priest,,4
+8/19/2020,9:00,1,Hwy 70,,140
+8/19/2020,9:33,2,Hwy 100 Boat Launch,,110
+8/19/2020,9:50,3,Moran Rd. Bridge,,93
+8/19/2020,10:15,4,Lowhead Dam,,160
+8/19/2020,11:05,5,Percy Priest,,16
+9/3/2020,9:45,1,Hwy 70,,1200
+9/3/2020,10:15,2,Hwy 100 Boat Launch,,1100
+9/3/2020,11:18,3,Richland Creek,,1600
+9/3/2020,11:42,4,Moran Rd. Bridge,,730
+9/3/2020,12:50,5,Lowhead Dam,,410
+9/24/2020,10:30,1,Hwy 70,,50
+9/24/2020,11:02,2,Hwy 100 Boat Launch,,140
+9/24/2020,10:36,3,Richland Creek,,170
+9/24/2020,11:16,4,Moran Rd. Bridge,,130
+9/24/2020,11:45,5,Lowhead Dam,,140
+10/8/2020,10:40,1,Hwy 70,,39
+10/8/2020,11:30,2,Hwy 100 Boat Launch,,56
+10/8/2020,9:48,3,Richland Creek,,100
+10/8/2020,10:36,4,Moran Rd. Bridge,,160
+10/8/2020,10:58,5,Lowhead Dam,,76
+10/29/2020,10:20,1,Hwy 100 Boat Launch,,2000
+10/29/2020,9:45,2,Hwy 70,,2400
+10/29/2020,10:04,3,Richland Creek,,2400
+10/29/2020,11:15,4,Moran Rd. Bridge,,2400
+10/29/2020,11:48,5,Lowhead Dam,,2400
+6/29/2021,9:25,1,Richland Creek,,130
+6/29/2021,10:44,2,Jackson Blvd,,56
+6/29/2021,10:24,4,Hwy 100 Boat Launch,,98
+6/29/2021,9:53,5,Moran Rd. Bridge,,99
+6/29/2021,8:26,6,Lewisburg Pike,,160
+6/29/2021,10:28,7,Mill Creek Greenway,,50
+6/29/2021,6:34,8,Whitsett Park,,50
+7/6/2021,8:08,1,Richland Creek,,290
+7/6/2021,8:29,2,Jackson Blvd,,99
+7/6/2021,10:45,3,Hwy 70,,13
+7/6/2021,8:10,4,Hwy 100 Boat Launch,,40
+7/6/2021,9:00,5,Moran Rd. Bridge,,74
+7/6/2021,9:23,6,Lewisburg Pike,,150
+7/6/2021,12:22,7,Mill Creek Greenway,,58
+7/6/2021,12:50,8,Whitsett Park,,23
+7/13/2021,8:00,1,Richland Creek,,660
+7/13/2021,8:11,2,Jackson Blvd,,480
+7/13/2021,9:36,3,Hwy 70,,33
+7/13/2021,11:03,4,Hwy 100 Boat Launch,,78
+7/13/2021,13:30,5,Moran Rd. Bridge,,74
+7/13/2021,8:43,6,Lewisburg Pike,,370
+7/13/2021,12:36,7,Mill Creek Greenway,,310
+7/13/2021,6:50,8,Whitsett Park,,160
+7/20/2021,10:06,1,Richland Creek,8.395,340
+7/20/2021,9:45,2,Jackson Blvd,4.155,460
+7/20/2021,9:45,3,Hwy 70,16.81,96
+7/20/2021,8:25,4,Hwy 100 Boat Launch,,200
+7/20/2021,1:30,5,Moran Rd. Bridge,14.555,74
+7/20/2021,8:17,6,Lewisburg Pike,19.13,120
+7/20/2021,1:09,7,Mill Creek Greenway,,690
+7/20/2021,2:30,8,Whitsett Park,,550
+7/27/2021,9:05,1,Richland Creek,,520
+7/27/2021,9:57,2,Jackson Blvd,,280
+7/27/2021,8:30,3,Hwy 70,,91
+7/27/2021,10:40,4,Hwy 100 Boat Launch,,100
+7/27/2021,,5,Moran Rd. Bridge,,46
+7/27/2021,12:21,7,Mill Creek Greenway,12.4,1200
+7/27/2021,7:59,8,Whitsett Park,,1400
+8/3/2021,9:15,1,Richland Creek,1.025,580
+8/3/2021,9:22,2,Jackson Blvd,0.805,820
+8/3/2021,9:00,3,Hwy 70,15.135,190
+8/3/2021,11:00,4,Hwy 100 Boat Launch,14.06,120
+8/3/2021,13:00,5,Moran Rd. Bridge,10.145,81
+8/3/2021,8:57,6,Lewisburg Pike,,120
+8/3/2021,11:52,7,Mill Creek Greenway,12.07,610
+8/3/2021,7:12,8,Whitsett Park,10.035,490
+8/10/2021,5:45,1,Richland Creek,3.345,1600
+8/10/2021,8:26,2,Jackson Blvd,0.48,230
+8/10/2021,9:50,3,Hwy 70,5.525,35
+8/10/2021,,4,Hwy 100 Boat Launch,,
+8/10/2021,11:00,5,Moran Rd. Bridge,13.76,120
+8/10/2021,8:37,6,Lewisburg Pike,,50
+8/10/2021,11:50,7,Mill Creek Greenway,5.275,54
+8/10/2021,7:06,8,Whitsett Park,21.75,120
+8/17/2021,,1,Richland Creek,,
+8/17/2021,9:35,2,Jackson Blvd,0.85,
+8/17/2021,12:10,3,Hwy 70,,98
+8/17/2021,11:05,4,Hwy 100 Boat Launch,31.2,110
+8/17/2021,13:20,5,Moran Rd. Bridge,19.7,91
+8/17/2021,,6,Lewisburg Pike,,
+8/17/2021,11:22,7,Mill Creek Greenway,4.19,360
+8/17/2021,,8,Whitsett Park,7.93,
+8/24/2021,,1,Richland Creek,,
+8/24/2021,9:38,2,Jackson Blvd,0.115,87
+8/24/2021,,3,Hwy 70,37.7,160
+8/24/2021,8:40,4,Hwy 100 Boat Launch,42.45,340
+8/24/2021,12:30,5,Moran Rd. Bridge,37,370
+8/24/2021,8:18,6,Lewisburg Pike,26.8,230
+8/24/2021,11:09,7,Mill Creek Greenway,5.445,260
+8/24/2021,13:30,8,Whitsett Park,5.9,180
+9/7/2021,12:40,1,Richland Creek,1.145,130
+9/7/2021,9:28,2,Jackson Blvd,0.09,310
+9/7/2021,8:30,3,Hwy 70,7.5,91
+9/7/2021,12:07,4,Hwy 100 Boat Launch,9.72,130
+9/7/2021,8:57,5,Moran Rd. Bridge,9.525,170
+9/7/2021,8:25,6,Lewisburg Pike,7.8,100
+9/7/2021,9:14,7,Mill Creek Greenway,1.77,390
+9/7/2021,7:27,8,Whitsett Park,3.91,180
+9/14/2021,9:00,1,Richland Creek,1.885,260
+9/14/2021,7:32,2,Jackson Blvd,0.54,80
+9/14/2021,10:25,3,Hwy 70,5.21,39
+9/14/2021,9:00,4,Hwy 100 Boat Launch,5.25,72
+9/14/2021,14:00,5,Moran Rd. Bridge,4.255,27
+9/14/2021,8:26,6,Lewisburg Pike,11.695,160
+9/14/2021,11:30,7,Mill Creek Greenway,3.865,78
+9/14/2021,8:21,8,Whitsett Park,3.435,190
+9/28/2021,12:55,1,Richland Creek,0.985,200
+9/28/2021,10:04,2,Jackson Blvd,0.88,240
+9/28/2021,9:35,3,Hwy 70,6.815,82
+9/28/2021,8:55,4,Hwy 100 Boat Launch,8.29,150
+9/28/2021,14:00,5,Moran Rd. Bridge,6.665,190
+9/28/2021,,6,Lewisburg Pike,,
+9/28/2021,12:22,7,Mill Creek Greenway,2.535,330
+9/28/2021,7:22,8,Whitsett Park,3.88,240
+10/5/2021,12:45,1,Richland Creek,0.66,1200
+10/5/2021,11:05,2,Jackson Blvd,0.215,650
+10/5/2021,11:30,3,Hwy 70,2.725,110
+10/5/2021,9:10,4,Hwy 100 Boat Launch,2.605,62
+10/5/2021,,5,Moran Rd. Bridge,,
+10/5/2021,8:25,6,Lewisburg Pike,2.535,59
+10/5/2021,11:00,7,Mill Creek Greenway,1.595,210
+10/5/2021,7:18,8,Whitsett Park,2.97,290
+10/12/2021,12:50,1,Richland Creek,1.715,160
+10/12/2021,10:11,2,Jackson Blvd,0.48,690
+10/12/2021,,3,Hwy 70,,
+10/12/2021,9:07,4,Hwy 100 Boat Launch,6.545,72
+10/12/2021,,5,Moran Rd. Bridge,,
+10/12/2021,8:21,6,Lewisburg Pike,18.95,88
+10/12/2021,11:37,7,Mill Creek Greenway,1.95,290
+10/12/2021,7:27,8,Whitsett Park,4.195,410
+10/19/2021,12:50,1,Richland Creek,0.235,73
+10/19/2021,11:16,2,Jackson Blvd,0.07,170
+10/19/2021,,3,Hwy 70,,
+10/19/2021,14:30,4,Hwy 100 Boat Launch,2.015,50
+10/19/2021,13:00,5,Moran Rd. Bridge,2.41,55
+10/19/2021,,6,Lewisburg Pike,,
+10/19/2021,12:15,7,Mill Creek Greenway,1.935,88
+10/19/2021,8:48,8,Whitsett Park,1.055,160
+10/26/2021,12:50,1,Richland Creek,3.835,1600
+10/26/2021,9:44,2,Jackson Blvd,1.425,1300
+10/26/2021,10:24,3,Hwy 70,6.97,1300
+10/26/2021,12:04,4,Hwy 100 Boat Launch,9.855,920
+10/26/2021,13:20,5,Moran Rd. Bridge,5.37,1700
+10/26/2021,8:19,6,Lewisburg Pike,5.54,980
+10/26/2021,12:10,7,Mill Creek Greenway,11.555,2400
+10/26/2021,7:05,8,Whitsett Park,6.56,2000
+5/24/2022,8:35,1,Lewisburg Pike,11.35,206.4
+5/24/2022,8:45,2,Mill Creek Greenway,7.77,105.4
+5/24/2022,9:18,3,Richland Creek,2.61,204.6
+5/24/2022,11:32,4,Hwy 100 Boat Launch,11.08,122.3
+5/24/2022,10:49,5,Jackson Blvd,3.62,387.3
+5/24/2022,11:58,6,Moran Rd. Bridge,32.9,105.4
+5/31/2022,8:00,,Hwy 70,5.45,113
+5/31/2022,11:44,,Hwy 100 Boat Launch,9.35,56.1
+5/31/2022,10:51,,Jackson Blvd,0.67,488.4
+5/31/2022,9:00,,Lewisburg Pike,9.39,261.3
+5/31/2022,10:04,,Moran Rd. Bridge,9.22,122.3
+5/31/2022,7:49,,Mill Creek Greenway,4.86,160.7
+5/31/2022,9:05,,Richland Creek,1.43,206.4
+6/7/2022,8:25,,Moran Rd. Bridge,10.1,
+6/7/2022,11:00,,Lewisburg Pike,10.26,
+6/7/2022,8:35,,Mill Creek Greenway,31.4,
+6/7/2022,8:00,,Hwy 70,6.79,
+6/7/2022,8:50,,Richland Creek,5.71,
+6/7/2022,10:49,,Jackson Blvd,2.12,
+6/7/2022,,,West Fork Browns Creek,1.11,
+6/7/2022,,,Whites Creek,19.2,
+6/7/2022,,,Hwy 100 Boat Launch,4.6,
+6/14/2022,11:50,,Lewisburg Pike,9.93,
+6/14/2022,9:40,,Mill Creek Greenway,15.12,
+6/14/2022,8:04,,Richland Creek,6,
+6/14/2022,10:14,,Hwy 100 Boat Launch,10.25,
+6/14/2022,9:40,,Jackson Blvd,1.75,
+6/14/2022,11:37,,Moran Rd. Bridge,9.76,
+6/14/2022,8:00,,Hwy 70,5.69,
+6/14/2022,11:35,,West Fork Browns Creek,1.58,
+6/14/2022,11:15,,Whites Creek,4.75,
+6/14/2022,10:00,,Whitsett Park,5.92,
+6/17/2022,,,Mill Creek Greenway,20,80
+6/17/2022,8:00,,Richland Creek,40,500
+6/17/2022,14:10,,Hwy 100 Boat Launch,20,200
+6/17/2022,,,Jackson Blvd,10,300
+6/17/2022,,,Moran Rd. Bridge,5,400
