@@ -1,6 +1,6 @@
 ---
 title: "Harpeth Conservancy's E. coli Forecast"
-output: pdf_document
+
 ---
 
 ```{r warning=FALSE, setup, include=FALSE}
@@ -558,8 +558,10 @@ formattable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], list(
 #DT::datatable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)],rownames=F, fillContainer = getOption("DT.fillContainer", NULL), options = list(pageLength = 8))
 
 
+TrackForecast2<-tail(TrackForecast,50)
 
-formattable(TrackForecast, list(
+
+formattable(TrackForecast2, list(
   "River Flow (cfs)" = color_tile("white", "blue"),
   "E. coli (MPN/100 mL)" = color_tile("white", "red"),
   Status = formatter("span", style = x ~ formattable::style(font.weight="bold", color = ifelse(x == "Safe", "green", 
