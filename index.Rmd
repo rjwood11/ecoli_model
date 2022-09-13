@@ -1,5 +1,6 @@
 ---
 title: "Harpeth Conservancy's E. coli Forecast"
+output: pdf_document
 ---
 
 ```{r warning=FALSE, setup, include=FALSE}
