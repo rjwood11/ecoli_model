@@ -13,7 +13,6 @@
 
 <title>Harpeth Conservancy’s E. coli Forecast</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -153,11 +152,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -281,13 +284,11 @@ $(document).ready(function () {
 
 
 <p>THIS PAGE IS A DRAFT</p>
-<p>Predictive Models and E. coli Forecasts will be validated in the
-coming months.</p>
-<p>The last update happened at 2022-09-13 11:08:56 Central Time.</p>
-<div id="htmlwidget-6532a9c42435a2f92fa5" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6532a9c42435a2f92fa5">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["OpenStreetMap",null,"Open SM",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.Toner",null,"Toner",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,"NG World",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[36.0816,36.11757,36.15122,36.10167,35.89984,36.01722,36.05456,36.122],[-86.68073,-86.71905,-86.85427,-86.86806,-86.84289,-86.89972,-86.92851,-87.09889],10,null,null,{"interactive":true,"className":"","stroke":true,"color":["grey","grey","#FF0000","grey","#FF0000","grey","#00FF00","grey"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["grey","grey","#FF0000","grey","#FF0000","grey","#00FF00","grey"],"fillOpacity":1},null,null,["<b>Location: <\/b> Whitsett Park <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>","<b>Location: <\/b> Mill Creek Greenway <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>","<b>Location: <\/b> Richland Creek <br/> <b>E. coli:<\/b> 304 <br/> <b>Status:<\/b> Warning <br/>","<b>Location: <\/b> Jackson Blvd <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>","<b>Location: <\/b> Lewisburg Pike <br/> <b>E. coli:<\/b> 420 <br/> <b>Status:<\/b> Warning <br/>","<b>Location: <\/b> Moran Rd. Bridge <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>","<b>Location: <\/b> Hwy 100 Boat Launch <br/> <b>E. coli:<\/b> 130 <br/> <b>Status:<\/b> Safe <br/>","<b>Location: <\/b> Hwy 70 <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addWMSTiles","args":["http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",null,null,{"styles":"","format":"image/png","transparent":true,"version":"1.1.1","attribution":"Weather data © 2012 IEM Nexrad","layers":"nexrad-n0r-900913"}]},{"method":"addLegend","args":[{"colors":["#FFFF00","grey","#00FF00","#FF0000"],"labels":["Caution","Data Unavailable","Safe","Warning"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"Public Safety Status","extra":null,"layerId":null,"className":"info legend","group":null}]},{"method":"addLegend","args":[{"colors":["blue","green","yellow","orange","red"],"labels":["Less Dense","","","","More Dense"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"unknown","title":"Current Precipitation","extra":null,"layerId":null,"className":"info legend","group":null}]}],"setView":[[36.08,-86.791425],10,[]],"limits":{"lat":[35.89984,36.15122],"lng":[-87.09889,-86.68073]}},"evals":[],"jsHooks":[]}</script>
-<p>You can click on the site dots on the map to get more
-information!</p>
+<p>Predictive Models and E. coli Forecasts will be validated in the coming months.</p>
+<p>The last update happened at 2022-09-13 13:15:57 Central Time.</p>
+<div id="htmlwidget-94c1d1505c9842fb3f64" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-94c1d1505c9842fb3f64">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["OpenStreetMap",null,"Open SM",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.Toner",null,"Toner",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,"NG World",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[36.0816,36.11757,36.15122,36.10167,35.89984,36.01722,36.05456,36.122],[-86.68073,-86.71905,-86.85427,-86.86806,-86.84289,-86.89972,-86.92851,-87.09889],10,null,null,{"interactive":true,"className":"","stroke":true,"color":["grey","grey","#FF0000","grey","#FF0000","grey","#00FF00","grey"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["grey","grey","#FF0000","grey","#FF0000","grey","#00FF00","grey"],"fillOpacity":1},null,null,["<b>Location: <\/b> Whitsett Park <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>","<b>Location: <\/b> Mill Creek Greenway <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>","<b>Location: <\/b> Richland Creek <br/> <b>E. coli:<\/b> 503 <br/> <b>Status:<\/b> Warning <br/>","<b>Location: <\/b> Jackson Blvd <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>","<b>Location: <\/b> Lewisburg Pike <br/> <b>E. coli:<\/b> 407 <br/> <b>Status:<\/b> Warning <br/>","<b>Location: <\/b> Moran Rd. Bridge <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>","<b>Location: <\/b> Hwy 100 Boat Launch <br/> <b>E. coli:<\/b> 116 <br/> <b>Status:<\/b> Safe <br/>","<b>Location: <\/b> Hwy 70 <br/> <b>E. coli:<\/b> NA <br/> <b>Status:<\/b> NA <br/>"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addWMSTiles","args":["http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",null,null,{"styles":"","format":"image/png","transparent":true,"version":"1.1.1","attribution":"Weather data © 2012 IEM Nexrad","layers":"nexrad-n0r-900913"}]},{"method":"addLegend","args":[{"colors":["#FFFF00","grey","#00FF00","#FF0000"],"labels":["Caution","Data Unavailable","Safe","Warning"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"Public Safety Status","extra":null,"layerId":null,"className":"info legend","group":null}]},{"method":"addLegend","args":[{"colors":["blue","green","yellow","orange","red"],"labels":["Less Dense","","","","More Dense"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"unknown","title":"Current Precipitation","extra":null,"layerId":null,"className":"info legend","group":null}]}],"setView":[[36.08,-86.791425],10,[]],"limits":{"lat":[35.89984,36.15122],"lng":[-87.09889,-86.68073]}},"evals":[],"jsHooks":[]}</script>
+<p>You can click on the site dots on the map to get more information!</p>
 <table class="table table-striped table-condensed" style="font-size: 12px; font-family: Cambria; width: auto !important; ">
 <caption style="font-size: initial !important;">
 Sampling Locations and Results
@@ -350,10 +351,10 @@ NA
 0
 </td>
 <td style="text-align:right;">
-51.10
+47.50
 </td>
 <td style="text-align:right;">
-2.85
+2.82
 </td>
 <td style="text-align:right;">
 NA
@@ -382,8 +383,7 @@ NA
       white-space: pre;
     }
   </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
-</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="17.50" y1="12.00" x2="17.50" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"> </g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="15.40" y1="12.00" x2="15.40" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
 </svg>
 </td>
 </tr>
@@ -404,10 +404,10 @@ NA
 0
 </td>
 <td style="text-align:right;">
-51.10
+47.50
 </td>
 <td style="text-align:right;">
-2.85
+2.82
 </td>
 <td style="text-align:right;">
 NA
@@ -436,8 +436,7 @@ NA
       white-space: pre;
     }
   </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
-</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="17.50" y1="12.00" x2="17.50" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"> </g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="15.40" y1="12.00" x2="15.40" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
 </svg>
 </td>
 </tr>
@@ -470,7 +469,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-304
+503
 </td>
 <td style="text-align:left;font-weight: bold;">
 Warning
@@ -490,8 +489,7 @@ Warning
       white-space: pre;
     }
   </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
-</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="25.23" y="6.94" width="1.00" height="1.00" style="stroke-width: 0.75; stroke: none; fill: #000000;"></rect><line x1="22.10" y1="7.44" x2="29.36" y2="7.44" style="stroke-width: 0.75;"></line><polyline points="22.10,6.00 22.10,7.44 22.10,8.88 " style="stroke-width: 0.75;"></polyline><polyline points="29.36,8.88 29.36,7.44 29.36,6.00 " style="stroke-width: 0.75;"></polyline><polygon points="24.92,8.25 26.54,8.25 26.54,6.63 24.92,6.63 " style="stroke-width: 0.75; stroke: none; fill: #FF0000;"></polygon><line x1="17.50" y1="12.00" x2="17.50" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"> </g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="39.46" y="6.94" width="1.00" height="1.00" style="stroke-width: 0.75; stroke: none; fill: #000000;"></rect><line x1="35.35" y1="7.44" x2="44.58" y2="7.44" style="stroke-width: 0.75;"></line><polyline points="35.35,6.00 35.35,7.44 35.35,8.88 " style="stroke-width: 0.75;"></polyline><polyline points="44.58,8.88 44.58,7.44 44.58,6.00 " style="stroke-width: 0.75;"></polyline><polygon points="39.15,8.25 40.77,8.25 40.77,6.63 39.15,6.63 " style="stroke-width: 0.75; stroke: none; fill: #FF0000;"></polygon><line x1="15.40" y1="12.00" x2="15.40" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
 </svg>
 </td>
 </tr>
@@ -544,8 +542,7 @@ NA
       white-space: pre;
     }
   </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
-</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="17.50" y1="12.00" x2="17.50" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"> </g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="15.40" y1="12.00" x2="15.40" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
 </svg>
 </td>
 </tr>
@@ -557,7 +554,7 @@ Lewisburg Pike
 September 13 2022
 </td>
 <td style="text-align:right;">
-19.9
+20.8
 </td>
 <td style="text-align:right;">
 7.9
@@ -566,19 +563,19 @@ September 13 2022
 0
 </td>
 <td style="text-align:right;">
-76.70
+74.50
 </td>
 <td style="text-align:right;">
-2.42
+2.40
 </td>
 <td style="text-align:right;">
-442
+443
 </td>
 <td style="text-align:right;">
-7.6
+7.9
 </td>
 <td style="text-align:right;">
-420
+407
 </td>
 <td style="text-align:left;font-weight: bold;">
 Warning
@@ -598,8 +595,7 @@ Warning
       white-space: pre;
     }
   </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
-</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="39.07" y="6.94" width="1.00" height="1.00" style="stroke-width: 0.75; stroke: none; fill: #000000;"></rect><line x1="34.56" y1="7.44" x2="44.58" y2="7.44" style="stroke-width: 0.75;"></line><polyline points="34.56,6.00 34.56,7.44 34.56,8.88 " style="stroke-width: 0.75;"></polyline><polyline points="44.58,8.88 44.58,7.44 44.58,6.00 " style="stroke-width: 0.75;"></polyline><polygon points="38.76,8.25 40.38,8.25 40.38,6.63 38.76,6.63 " style="stroke-width: 0.75; stroke: none; fill: #FF0000;"></polygon><line x1="17.50" y1="12.00" x2="17.50" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"> </g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="30.66" y="6.94" width="1.00" height="1.00" style="stroke-width: 0.75; stroke: none; fill: #000000;"></rect><line x1="27.43" y1="7.44" x2="34.90" y2="7.44" style="stroke-width: 0.75;"></line><polyline points="27.43,6.00 27.43,7.44 27.43,8.88 " style="stroke-width: 0.75;"></polyline><polyline points="34.90,8.88 34.90,7.44 34.90,6.00 " style="stroke-width: 0.75;"></polyline><polygon points="30.35,8.25 31.97,8.25 31.97,6.63 30.35,6.63 " style="stroke-width: 0.75; stroke: none; fill: #FF0000;"></polygon><line x1="15.40" y1="12.00" x2="15.40" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
 </svg>
 </td>
 </tr>
@@ -620,10 +616,10 @@ NA
 0
 </td>
 <td style="text-align:right;">
-188.00
+178.00
 </td>
 <td style="text-align:right;">
-1.72
+1.69
 </td>
 <td style="text-align:right;">
 NA
@@ -652,8 +648,7 @@ NA
       white-space: pre;
     }
   </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
-</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="17.50" y1="12.00" x2="17.50" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"> </g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="15.40" y1="12.00" x2="15.40" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
 </svg>
 </td>
 </tr>
@@ -674,19 +669,19 @@ NA
 0
 </td>
 <td style="text-align:right;">
-188.00
+178.00
 </td>
 <td style="text-align:right;">
-1.72
-</td>
-<td style="text-align:right;">
-NA
+1.69
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-130
+NA
+</td>
+<td style="text-align:right;">
+116
 </td>
 <td style="text-align:left;font-weight: bold;">
 Safe
@@ -706,8 +701,7 @@ Safe
       white-space: pre;
     }
   </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
-</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="4.47" y="6.94" width="1.00" height="1.00" style="stroke-width: 0.75; stroke: none; fill: #000000;"></rect><line x1="3.42" y1="7.44" x2="6.53" y2="7.44" style="stroke-width: 0.75;"></line><polyline points="3.42,6.00 3.42,7.44 3.42,8.88 " style="stroke-width: 0.75;"></polyline><polyline points="6.53,8.88 6.53,7.44 6.53,6.00 " style="stroke-width: 0.75;"></polyline><polygon points="4.16,8.25 5.78,8.25 5.78,6.63 4.16,6.63 " style="stroke-width: 0.75; stroke: none; fill: #FF0000;"></polygon><line x1="17.50" y1="12.00" x2="17.50" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"> </g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="3.99" y="6.94" width="1.00" height="1.00" style="stroke-width: 0.75; stroke: none; fill: #000000;"></rect><line x1="3.42" y1="7.44" x2="5.55" y2="7.44" style="stroke-width: 0.75;"></line><polyline points="3.42,6.00 3.42,7.44 3.42,8.88 " style="stroke-width: 0.75;"></polyline><polyline points="5.55,8.88 5.55,7.44 5.55,6.00 " style="stroke-width: 0.75;"></polyline><polygon points="3.68,8.25 5.30,8.25 5.30,6.63 3.68,6.63 " style="stroke-width: 0.75; stroke: none; fill: #FF0000;"></polygon><line x1="15.40" y1="12.00" x2="15.40" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
 </svg>
 </td>
 </tr>
@@ -728,10 +722,10 @@ NA
 0
 </td>
 <td style="text-align:right;">
-293.00
+277.00
 </td>
 <td style="text-align:right;">
-1.54
+1.49
 </td>
 <td style="text-align:right;">
 NA
@@ -760,8 +754,7 @@ NA
       white-space: pre;
     }
   </style>
-</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
-</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="17.50" y1="12.00" x2="17.50" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)"> </g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><line x1="15.40" y1="12.00" x2="15.40" y2="2.88" style="stroke-width: 0.75; stroke-dasharray: 1.00,3.00;"></line></g>
 </svg>
 </td>
 </tr>
@@ -853,472 +846,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5252ff">199.00</span>
-</td>
-<td style="text-align:right;">
-1.75
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-UTC
-</td>
-<td style="text-align:right;">
-36.05456
-</td>
-<td style="text-align:right;">
--86.92851
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff0f0">146</span>
-</td>
-<td style="text-align:right;">
-<span style="font-weight: bold">NA </span>
-</td>
-<td style="text-align:right;">
-14:30:00
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-03434500
-</td>
-<td style="text-align:right;">
-Hwy 70
-</td>
-<td style="text-align:right;">
-USGS
-</td>
-<td style="text-align:right;">
-2022-09-13
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
-</td>
-<td style="text-align:right;">
-1.54
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-UTC
-</td>
-<td style="text-align:right;">
-36.12200
-</td>
-<td style="text-align:right;">
--87.09889
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
-</td>
-<td style="text-align:right;">
-<span style="font-weight: bold">NA </span>
-</td>
-<td style="text-align:right;">
-14:00:00
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-03431060
-</td>
-<td style="text-align:right;">
-Whitsett Park
-</td>
-<td style="text-align:right;">
-USGS
-</td>
-<td style="text-align:right;">
-2022-09-13
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
-</td>
-<td style="text-align:right;">
-2.85
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-UTC
-</td>
-<td style="text-align:right;">
-36.08160
-</td>
-<td style="text-align:right;">
--86.68073
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
-</td>
-<td style="text-align:right;">
-<span style="font-weight: bold">NA </span>
-</td>
-<td style="text-align:right;">
-15:00:00
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-03431060
-</td>
-<td style="text-align:right;">
-Mill Creek Greenway
-</td>
-<td style="text-align:right;">
-USGS
-</td>
-<td style="text-align:right;">
-2022-09-13
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
-</td>
-<td style="text-align:right;">
-2.85
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-UTC
-</td>
-<td style="text-align:right;">
-36.11757
-</td>
-<td style="text-align:right;">
--86.71905
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
-</td>
-<td style="text-align:right;">
-<span style="font-weight: bold">NA </span>
-</td>
-<td style="text-align:right;">
-15:00:00
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-03431700
-</td>
-<td style="text-align:right;">
-Richland Creek
-</td>
-<td style="text-align:right;">
-USGS
-</td>
-<td style="text-align:right;">
-2022-09-13
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fefeff">4.19</span>
-</td>
-<td style="text-align:right;">
-0.57
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-UTC
-</td>
-<td style="text-align:right;">
-36.15122
-</td>
-<td style="text-align:right;">
--86.85427
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff8787">266</span>
-</td>
-<td style="text-align:right;">
-<span style="font-weight: bold">NA </span>
-</td>
-<td style="text-align:right;">
-14:45:00
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-03431700
-</td>
-<td style="text-align:right;">
-Jackson Blvd
-</td>
-<td style="text-align:right;">
-USGS
-</td>
-<td style="text-align:right;">
-2022-09-13
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fefeff">4.19</span>
-</td>
-<td style="text-align:right;">
-0.57
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-UTC
-</td>
-<td style="text-align:right;">
-36.10167
-</td>
-<td style="text-align:right;">
--86.86806
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
-</td>
-<td style="text-align:right;">
-<span style="font-weight: bold">NA </span>
-</td>
-<td style="text-align:right;">
-14:45:00
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-0343233905
-</td>
-<td style="text-align:right;">
-Lewisburg Pike
-</td>
-<td style="text-align:right;">
-USGS
-</td>
-<td style="text-align:right;">
-2022-09-13
-</td>
-<td style="text-align:right;">
-19.8
-</td>
-<td style="text-align:right;">
-7.9
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
-</td>
-<td style="text-align:right;">
-2.42
-</td>
-<td style="text-align:right;">
-442
-</td>
-<td style="text-align:right;">
-7.5
-</td>
-<td style="text-align:right;">
-UTC
-</td>
-<td style="text-align:right;">
-35.89984
-</td>
-<td style="text-align:right;">
--86.84289
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff0000">420</span>
-</td>
-<td style="text-align:right;">
-<span style="font-weight: bold">NA </span>
-</td>
-<td style="text-align:right;">
-15:45:00
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-03433500
-</td>
-<td style="text-align:right;">
-Moran Rd. Bridge
-</td>
-<td style="text-align:right;">
-USGS
-</td>
-<td style="text-align:right;">
-2022-09-13
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
-</td>
-<td style="text-align:right;">
-1.72
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-UTC
-</td>
-<td style="text-align:right;">
-36.01722
-</td>
-<td style="text-align:right;">
--86.89972
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
-</td>
-<td style="text-align:right;">
-<span style="font-weight: bold">NA </span>
-</td>
-<td style="text-align:right;">
-15:30:00
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-03433500
-</td>
-<td style="text-align:right;">
-Hwy 100 Boat Launch
-</td>
-<td style="text-align:right;">
-USGS
-</td>
-<td style="text-align:right;">
-2022-09-13
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -1339,8 +867,7 @@ UTC
 -86.92851
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">130</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff5f5">130</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1375,8 +902,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
 </td>
 <td style="text-align:right;">
 1.54
@@ -1397,8 +923,7 @@ UTC
 -87.09889
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1433,8 +958,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -1455,8 +979,7 @@ UTC
 -86.68073
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1491,8 +1014,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -1513,8 +1035,7 @@ UTC
 -86.71905
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1549,8 +1070,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -1571,8 +1091,7 @@ UTC
 -86.85427
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff8787">266</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff9c9c">266</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1607,8 +1126,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -1629,8 +1147,7 @@ UTC
 -86.86806
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1665,8 +1182,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
 </td>
 <td style="text-align:right;">
 2.42
@@ -1687,8 +1203,7 @@ UTC
 -86.84289
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff0000">420</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff3636">420</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1723,8 +1238,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -1745,8 +1259,7 @@ UTC
 -86.89972
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1781,8 +1294,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -1803,8 +1315,7 @@ UTC
 -86.92851
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">130</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff5f5">130</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1839,8 +1350,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
 </td>
 <td style="text-align:right;">
 1.54
@@ -1861,8 +1371,7 @@ UTC
 -87.09889
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1897,8 +1406,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -1919,8 +1427,7 @@ UTC
 -86.68073
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -1955,8 +1462,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -1977,8 +1483,7 @@ UTC
 -86.71905
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2013,8 +1518,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -2035,8 +1539,7 @@ UTC
 -86.85427
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff8787">266</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff9c9c">266</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2071,8 +1574,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -2093,8 +1595,7 @@ UTC
 -86.86806
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2129,8 +1630,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
 </td>
 <td style="text-align:right;">
 2.42
@@ -2151,8 +1651,7 @@ UTC
 -86.84289
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff0000">420</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff3636">420</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2187,8 +1686,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -2209,8 +1707,7 @@ UTC
 -86.89972
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2245,8 +1742,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -2267,8 +1763,7 @@ UTC
 -86.92851
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">130</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff5f5">130</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2303,8 +1798,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
 </td>
 <td style="text-align:right;">
 1.54
@@ -2325,8 +1819,7 @@ UTC
 -87.09889
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2361,8 +1854,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -2383,8 +1875,7 @@ UTC
 -86.68073
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2419,8 +1910,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -2441,8 +1931,7 @@ UTC
 -86.71905
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2477,8 +1966,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -2499,8 +1987,7 @@ UTC
 -86.85427
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff8787">266</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff9c9c">266</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2535,8 +2022,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -2557,8 +2043,7 @@ UTC
 -86.86806
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2593,8 +2078,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
 </td>
 <td style="text-align:right;">
 2.42
@@ -2615,8 +2099,7 @@ UTC
 -86.84289
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff0000">420</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff3636">420</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2651,8 +2134,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -2673,8 +2155,7 @@ UTC
 -86.89972
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2709,8 +2190,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -2731,8 +2211,7 @@ UTC
 -86.92851
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">130</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff5f5">130</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2767,8 +2246,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
 </td>
 <td style="text-align:right;">
 1.54
@@ -2789,8 +2267,7 @@ UTC
 -87.09889
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2825,8 +2302,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -2847,8 +2323,7 @@ UTC
 -86.68073
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2883,8 +2358,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -2905,8 +2379,7 @@ UTC
 -86.71905
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2941,8 +2414,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -2963,8 +2435,7 @@ UTC
 -86.85427
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff6666">304</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff8383">304</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -2999,8 +2470,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -3021,8 +2491,7 @@ UTC
 -86.86806
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -3057,8 +2526,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
 </td>
 <td style="text-align:right;">
 2.42
@@ -3079,8 +2547,7 @@ UTC
 -86.84289
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff0000">420</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff3636">420</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -3115,8 +2582,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -3137,8 +2603,7 @@ UTC
 -86.89972
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -3173,8 +2638,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -3195,8 +2659,7 @@ UTC
 -86.92851
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">130</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff5f5">130</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -3231,8 +2694,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
 </td>
 <td style="text-align:right;">
 1.54
@@ -3253,8 +2715,7 @@ UTC
 -87.09889
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -3289,8 +2750,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -3311,8 +2771,7 @@ UTC
 -86.68073
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -3347,8 +2806,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d5d5ff">51.10</span>
 </td>
 <td style="text-align:right;">
 2.85
@@ -3369,8 +2827,7 @@ UTC
 -86.71905
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -3405,8 +2862,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -3427,11 +2883,10 @@ UTC
 -86.85427
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff6666">304</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff8383">304</span>
 </td>
 <td style="text-align:right;">
-<span style="font-weight: bold; color: red">Warning</span>
+<span style="font-weight: bold">NA </span>
 </td>
 <td style="text-align:right;">
 15:45:00
@@ -3463,8 +2918,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
 </td>
 <td style="text-align:right;">
 0.56
@@ -3485,8 +2939,7 @@ UTC
 -86.86806
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -3521,8 +2974,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #bebeff">76.70</span>
 </td>
 <td style="text-align:right;">
 2.42
@@ -3543,11 +2995,10 @@ UTC
 -86.84289
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff0000">420</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff3636">420</span>
 </td>
 <td style="text-align:right;">
-<span style="font-weight: bold; color: red">Warning</span>
+<span style="font-weight: bold">NA </span>
 </td>
 <td style="text-align:right;">
 16:00:00
@@ -3579,8 +3030,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -3601,8 +3051,7 @@ UTC
 -86.89972
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
@@ -3637,8 +3086,7 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #5c5cff">188.00</span>
 </td>
 <td style="text-align:right;">
 1.72
@@ -3659,14 +3107,461 @@ UTC
 -86.92851
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">130</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #fff5f5">130</span>
+</td>
+<td style="text-align:right;">
+<span style="font-weight: bold">NA </span>
+</td>
+<td style="text-align:right;">
+15:30:00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+03434500
+</td>
+<td style="text-align:right;">
+Hwy 70
+</td>
+<td style="text-align:right;">
+USGS
+</td>
+<td style="text-align:right;">
+2022-09-13
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
+</td>
+<td style="text-align:right;">
+1.54
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+UTC
+</td>
+<td style="text-align:right;">
+36.12200
+</td>
+<td style="text-align:right;">
+-87.09889
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+</td>
+<td style="text-align:right;">
+<span style="font-weight: bold">NA </span>
+</td>
+<td style="text-align:right;">
+15:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+03431060
+</td>
+<td style="text-align:right;">
+Whitsett Park
+</td>
+<td style="text-align:right;">
+USGS
+</td>
+<td style="text-align:right;">
+2022-09-13
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d8d8ff">47.50</span>
+</td>
+<td style="text-align:right;">
+2.82
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+UTC
+</td>
+<td style="text-align:right;">
+36.08160
+</td>
+<td style="text-align:right;">
+-86.68073
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+</td>
+<td style="text-align:right;">
+<span style="font-weight: bold">NA </span>
+</td>
+<td style="text-align:right;">
+18:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+03431060
+</td>
+<td style="text-align:right;">
+Mill Creek Greenway
+</td>
+<td style="text-align:right;">
+USGS
+</td>
+<td style="text-align:right;">
+2022-09-13
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #d8d8ff">47.50</span>
+</td>
+<td style="text-align:right;">
+2.82
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+UTC
+</td>
+<td style="text-align:right;">
+36.11757
+</td>
+<td style="text-align:right;">
+-86.71905
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+</td>
+<td style="text-align:right;">
+<span style="font-weight: bold">NA </span>
+</td>
+<td style="text-align:right;">
+18:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+03431700
+</td>
+<td style="text-align:right;">
+Richland Creek
+</td>
+<td style="text-align:right;">
+USGS
+</td>
+<td style="text-align:right;">
+2022-09-13
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+UTC
+</td>
+<td style="text-align:right;">
+36.15122
+</td>
+<td style="text-align:right;">
+-86.85427
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff0000">503</span>
+</td>
+<td style="text-align:right;">
+<span style="font-weight: bold; color: red">Warning</span>
+</td>
+<td style="text-align:right;">
+17:45:00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+03431700
+</td>
+<td style="text-align:right;">
+Jackson Blvd
+</td>
+<td style="text-align:right;">
+USGS
+</td>
+<td style="text-align:right;">
+2022-09-13
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">3.85</span>
+</td>
+<td style="text-align:right;">
+0.56
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+UTC
+</td>
+<td style="text-align:right;">
+36.10167
+</td>
+<td style="text-align:right;">
+-86.86806
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+</td>
+<td style="text-align:right;">
+<span style="font-weight: bold">NA </span>
+</td>
+<td style="text-align:right;">
+17:45:00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0343233905
+</td>
+<td style="text-align:right;">
+Lewisburg Pike
+</td>
+<td style="text-align:right;">
+USGS
+</td>
+<td style="text-align:right;">
+2022-09-13
+</td>
+<td style="text-align:right;">
+20.8
+</td>
+<td style="text-align:right;">
+7.9
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #c0c0ff">74.50</span>
+</td>
+<td style="text-align:right;">
+2.40
+</td>
+<td style="text-align:right;">
+443
+</td>
+<td style="text-align:right;">
+7.9
+</td>
+<td style="text-align:right;">
+UTC
+</td>
+<td style="text-align:right;">
+35.89984
+</td>
+<td style="text-align:right;">
+-86.84289
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ff3f3f">407</span>
+</td>
+<td style="text-align:right;">
+<span style="font-weight: bold; color: red">Warning</span>
+</td>
+<td style="text-align:right;">
+18:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+03433500
+</td>
+<td style="text-align:right;">
+Moran Rd. Bridge
+</td>
+<td style="text-align:right;">
+USGS
+</td>
+<td style="text-align:right;">
+2022-09-13
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #6565ff">178.00</span>
+</td>
+<td style="text-align:right;">
+1.69
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+UTC
+</td>
+<td style="text-align:right;">
+36.01722
+</td>
+<td style="text-align:right;">
+-86.89972
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+</td>
+<td style="text-align:right;">
+<span style="font-weight: bold">NA </span>
+</td>
+<td style="text-align:right;">
+17:30:00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+03433500
+</td>
+<td style="text-align:right;">
+Hwy 100 Boat Launch
+</td>
+<td style="text-align:right;">
+USGS
+</td>
+<td style="text-align:right;">
+2022-09-13
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #6565ff">178.00</span>
+</td>
+<td style="text-align:right;">
+1.69
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+UTC
+</td>
+<td style="text-align:right;">
+36.05456
+</td>
+<td style="text-align:right;">
+-86.92851
+</td>
+<td style="text-align:right;">
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #ffffff">116</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold; color: green">Safe </span>
 </td>
 <td style="text-align:right;">
-15:30:00
+17:30:00
 </td>
 </tr>
 <tr>
@@ -3695,11 +3590,10 @@ NA
 0
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0000ff">293.00</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px; background-color: #0e0eff">277.00</span>
 </td>
 <td style="text-align:right;">
-1.54
+1.49
 </td>
 <td style="text-align:right;">
 NA
@@ -3717,14 +3611,13 @@ UTC
 -87.09889
 </td>
 <td style="text-align:right;">
-<span
-style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
+<span style="display: block; padding: 0 4px; border-radius: 4px">NA</span>
 </td>
 <td style="text-align:right;">
 <span style="font-weight: bold">NA </span>
 </td>
 <td style="text-align:right;">
-15:00:00
+17:00:00
 </td>
 </tr>
 </tbody>
