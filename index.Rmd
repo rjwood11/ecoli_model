@@ -4,6 +4,9 @@ title: "Harpeth Conservancy's E. coli Forecast"
 ---
 
 ```{r warning=FALSE, setup, include=FALSE}
+
+###Look at Mapboxer Plugin as a way to map sampling locations - GLOS uses it for bouy data display
+
 library(tidyverse)
 library(osmdata) 
 library(ggmap)
@@ -388,6 +391,13 @@ p<-leaflet() %>%
 
 
 p
+
+
+
+```
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE,fig.keep='all'}
+
 
 
 
