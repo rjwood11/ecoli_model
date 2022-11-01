@@ -48,7 +48,7 @@ names(Daily)
 
 ## Including Plots
 
-You can also embed plots, for example:
+
 
 ```{r weather data, echo=FALSE}
 
