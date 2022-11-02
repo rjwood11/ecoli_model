@@ -1,0 +1,604 @@
+---
+title: "Harpeth Conservancy's E. coli Forecast"
+---
+
+```{r warning=FALSE, setup, include=FALSE}
+library(tidyverse)
+library(osmdata) 
+library(ggmap)
+library(dataRetrieval)
+library(XML)
+library(DT)
+library(dbplyr)
+library(widgetframe)
+library(rgdal)
+library(leaflet)
+library(plotly)
+library(formattable)
+library(htmltools)
+library(leaflet)
+library(sf)
+library(kableExtra)
+library(knitr)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+
+time = lubridate::with_tz(Sys.time(), "CST6CDT")
+
+```
+
+THIS PAGE IS A DRAFT
+
+Predictive Models and E. coli Forecasts will be validated in the coming months.
+
+The last update happened at `r time` Central Time.
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+
+#big_streets = getbb("Nashville Tennessee") %>%
+#   opq() %>%
+#   add_osm_feature(key = "highway", 
+#                   value = c("motorway", "trunk", "primary",  "primary_link", "trunk_link")) %>%
+#osmdata_sf()
+
+#big_streets = getbb("Nashville Tennessee") %>%
+#  opq() %>%
+#  add_osm_features (features = c("\"place\"=\"city\"",
+#                                 "\"place\"=\"suburb\"",
+#                                 "\"highway\"=\"motorway\"",
+#                                 "\"highway\"=\"trunk\"",
+#                                 "\"highway\"=\"primary\"",
+#                                 "\"highway\"=\"motorway_link\"",
+#                                 "\"highway\"=\"trunk_link\"",
+#                                 "\"highway\"=\"primary_link\"",
+#                                 "\"boundary\"=\"administrative\"")) %>%
+#  osmdata_sf()
+
+#med_streets = getbb("Nashville Tennessee") %>%
+# opq() %>%
+# add_osm_feature(key = "highway", 
+#                 value = c("secondary", "tertiary", "secondary_link", "tertiary_link")) %>%
+# osmdata_sf()
+
+#river = getbb("Nashville Tennessee") %>%
+#  opq()%>%
+#  add_osm_feature(key = "waterway", value = "river") %>%
+#  osmdata_sf()
+
+```
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+
+sites_millcreek = c("03431060", "03430550", "03431083","03431000")
+sites_harpeth = c("0343233905", "03432400", "034324146","03432800", "03434500", "03433500","03432350")
+sites_richland = c("03431700", "03431655")
+parameter_codes = c("00060", "00300")
+
+
+sites = readNWISsite(siteNumbers=c(sites_millcreek, sites_harpeth, sites_richland))
+site_coords = sites[c(2:3,5:6,7:8,11:13),]
+data.table::setnames(site_coords, old = c("dec_lat_va"),
+                     new = c("Latitude"))
+data.table::setnames(site_coords, old = c("dec_long_va"),
+                     new = c("Longitude"))
+
+# Just 0343233905 to demonstrate concept
+
+today_data = readNWISdata(sites=c('0343233905','03431000','03431060','03431655','03431700','03432800','03433500','03434500','03432350'), service="iv",asDateTime=T)
+                          
+#today_data = readNWISdata(sites=c('0343233905'), service="iv"))
+                          
+
+
+
+today=today_data %>% 
+  group_by(site_no) %>%
+  slice(which.max(as.POSIXct(dateTime,format = '%Y-%m-%d %H:%M:%S')))
+
+
+
+
+
+# discharge often unavailable, annoying.
+# todo: figure out a way to approximate, average over prior year values on the same day?
+
+#names(today)
+
+Codelist<-vapply(strsplit(names(today)[c(4,6,8,10,12,14,16,18)],"_"), `[`, 2, FUN.VALUE=character(1))
+
+
+#PcodeLookup<-function(x) { 
+ # return(pCodeToName[pCodeToName$parm_cd==x,description]) 
+#}
+
+
+#Codelist1<-for (i in 1:8) {
+ # Pcode[[i]][2]
+#} 
+
+
+
+
+
+
+
+#%>% print()
+
+
+
+
+data.table::setnames(today, old = names(today)[c(4,6,8,10,12,14,16,18)], new = Codelist,skip_absent=T)
+
+#data.table::setnames(today, old = Codelist, new = pCodeToName$description,skip_absent=T)
+
+names(today)[c(4,6,8,10,12,14,16,18)]<- pCodeToName$characteristicname[match(as.numeric(names(today)[c(4,6,8,10,12,14,16,18)]), pCodeToName$parm_cd)]
+
+url = "https://www.wunderground.com/precipitation/us/tn/franklin/35.92,-86.86?cm_ven=localwx_modprecip"
+source = readLines(url, encoding = "UTF-8",warn=F)
+parsed_doc = htmlParse(source, encoding = "UTF-8")
+PRCP = xpathSApply(parsed_doc, path ="/html/body/app-root/app-precipitation/one-column-layout/wu-header/sidenav/mat-sidenav-container/mat-sidenav-content/div/section/div[2]/div[2]/div[1]/lib-precipitation-liquid-accumulation/div/div/div/div[1]/div/div[2]/div[2]/div/span[2]/text()", xmlValue)
+
+
+url = "https://www.wunderground.com/weather/us/tn/franklin/35.92,-86.86"
+source = readLines(url, encoding = "UTF-8",warn=F)
+parsed_doc = htmlParse(source, encoding = "UTF-8")
+TAVG = xpathSApply(parsed_doc, path = "/html/body/app-root/app-today/one-column-layout/wu-header/sidenav/mat-sidenav-container/mat-sidenav-content/div/section/div[3]/div[1]/div/div[1]/div[1]/lib-city-current-conditions/div/div[2]/div/div/div[2]/lib-display-unit/span/span[1]", xmlValue)
+
+
+url = "https://www.wunderground.com/weather/us/tn/franklin/35.92,-86.86"
+source = readLines(url,encoding = "UTF-8",warn=F)
+parsed_doc = htmlParse(source, encoding = "UTF-8")
+WSF5 <- xpathSApply(parsed_doc, path = '/html/body/app-root/app-today/one-column-layout/wu-header/sidenav/mat-sidenav-container/mat-sidenav-content/div/section/div[3]/div[1]/div/div[1]/div[1]/lib-city-current-conditions/div/div[3]/div/div[2]/p/strong/lib-display-unit/span/span[1]', xmlValue)
+
+
+
+
+
+
+# E.coli = SQUAREROOT(PRCP) + river.flow.cfs + SQUARE(DO) + SQUARE(SINDOY)
+# 
+# PRCP = daily precipitation
+# river.flow.cfs = Discharge column in the USGS data
+# SINDOY = sin(day of the year; 1-365)
+# DO = Dissolved Oxygen
+
+# I have it set up to only do 0343233905 as a demo, todo: reorganize data structure from data pulling and
+# merge with the site_coords table so the mutate statement will calc all stations and leave no data as null
+
+#################### START HERE
+
+#site_coords = site_coords %>% mutate(ecoli = if_else(site_no == '0343233905', sqrt(as.numeric(precip)) + tail(today_data$river_flow_cfs, n=1) + tail(today_data$dissolved_oxygen, n=1)^2 + sin(as.numeric(strftime(time, format = "%j")))^2, runif(8,100,400)))
+
+
+## Need to figure out how to run multiple distinct models
+
+###########################################################################################################
+# Predictive Equations from Virtual Beach 
+## Hwy 100 Sampling Location - MLR
+## Ecoli = -136 + 6468*(PRCP) + 1.416*(discharge) 
+## Decision Criteria = 235
+
+## Lowhead Dam/Lewisburg Pike - GBM
+## Ecoli = PRCP + TAVG + SQUARE(WSF5) + discharge                      -24.56 + 5.799*(discharge)
+## Decision Criteria = 528.8                                            235
+
+## Richland Creek/Sylvan Park - MLR
+## Ecoli = -1201 + 1.912e+04*(PRCP) + 0.2474*(SQUARE(TAVG))
+## Decision Criteria = 235
+
+###########################################################################################################
+
+#Lat<-site_coords[c(1:9),7]
+#Long<-site_coords[c(1:9),8]
+
+#today$Latitude<-Lat
+#today$Longitude<-Long
+
+
+today1<-today
+
+site_no<-c("03433500","03433500","03433500","03432350","03433500","03434500","03431700",
+           "03431700","03431060","03431060","0343233905")
+
+Location<-c("Natchez Trace", "Moran Rd. Bridge", "Hwy 100 Boat Launch", "Lowhead Dam",  "Coley Davis", "Hwy 70",            
+            "Richland Creek","Jackson Blvd",   "Whitsett Park", "Mill Creek Greenway", "Lewisburg Pike")
+
+LocLookup <- data.frame(Location, site_no)
+
+Forecast1<-LocLookup
+
+Forecast<-merge(x = Forecast1, y = today1, by = "site_no", all.y = TRUE, na.rm=T)
+
+Forecast <- Forecast[-c(1,4,9),]
+
+
+Forecast$`Stream flow, mean. daily`[5] <- ifelse(is.na(Forecast$`Stream flow, mean. daily`[5]), Forecast$`Stream flow, mean. daily`[6], Forecast$`Stream flow, mean. daily`[5])
+
+Forecast <- Forecast[-c(6,7,10),]
+
+#Lat<-site_coords[c(1:5,7:9),7]
+#Long<-site_coords[c(1:5,7:9),8]
+
+Lat<-c('36.08160', '36.11757',  '36.15122', '36.10167',  '35.89984', '36.01722', '36.05456', '36.12200')
+
+Long<-c('-86.68073', '-86.71905', '-86.85427','-86.86806',   '-86.84289', '-86.89972', '-86.92851', '-87.09889')
+
+Forecast$Latitude<-Lat
+Forecast$Longitude<-Long
+
+
+
+#Forecast$Longitude <- site_coords$Longitude[match(as.numeric(Forecast$Location), pCodeToName$parm_cd)]
+
+
+
+
+###################################################################################################################################################
+
+###   Calculate E.coli Predictions based on Virtual Beach Equations   ###
+
+###################################################################################################################################################
+
+a<- Forecast$Location
+b<-as.numeric(PRCP)
+c<-as.numeric(TAVG)
+d<-as.numeric(WSF5)
+e<-Forecast$`Stream flow, mean. daily`
+z<- as.numeric(strftime(time, format = "%j"))
+
+
+ecoli <- numeric(length = length(a))
+
+for (i in seq_along(a)){
+if (a[i]=="Richland Creek") {
+    ecoli[i]= -1201 + as.numeric(1.912e+04*(b)) + 0.2474*(c^2)
+} else if (a[i]=="Lewisburg Pike") {
+    ecoli[i]= -24.56 + 5.799*e[i]
+} else if (a[i]=="Hwy 100 Boat Launch") {
+    ecoli[i]= -136 + 6468*(b) + 1.416*e[i] 
+} else {ecoli[i] <- NA}
+}
+
+Forecast$ecoli<-signif(ecoli,3)
+Forecast$Precipitation<-as.numeric(PRCP)
+
+# assign color values based on conditional ecoli values
+
+Forecast = Forecast %>% mutate(Status = ifelse(ecoli > 235, "Warning", 
+                                                    ifelse(ecoli < 235 & ecoli > 175, "Caution", "Safe")))
+
+#site_coords = site_coords %>% mutate(Status = ifelse(ecoli > 235, "Warning", 
+#                                                    ifelse(ecoli < 235 & ecoli > 175, "Caution", "Safe")))
+
+
+# Set NA values to gray
+
+Forecast$Status[is.na(Forecast$Status)] = NA
+
+#site_coords$Status[is.na(site_coords$Status)] = 'Data Unavailable'
+
+cols = c("Safe" = "green", "Warning" = "red", "Caution" = "yellow", "Data Unavailable" = "gray")
+
+
+#Lat<-site_coords[c(1:5,7:9),7]
+#Long<-site_coords[c(1:5,7:9),8]
+
+#Forecast$Latitude<-Lat
+#Forecast$Longitude<-Long
+
+
+
+```
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE,fig.keep='all'}
+
+
+#map = {
+#ggplot() +
+#  geom_sf(data = river$osm_lines,
+#          inherit.aes = FALSE,
+#          color = "steelblue",
+#          size = .8,
+#          alpha = .3) +
+#  geom_sf_text(data = river$osm_lines, aes(label = name), color="blue") +
+#  geom_sf(data = med_streets$osm_lines,
+#         inherit.aes = FALSE,
+#         color = "black",
+#         size = .3,
+#         alpha = .5) +
+#  geom_sf(data = big_streets$osm_lines,
+#          inherit.aes = FALSE,
+#          color = "black",
+#          size = .5,
+#          alpha = .6) +
+#  coord_sf(xlim = c(-87.15477, -86.51559), 
+#           ylim = c(35.86778, 36.40550),
+#          expand = FALSE)  +
+# geom_point(data=site_coords, aes(x=Longitude, y=Latitude, text = paste(station_nm, '\n', 'USGS Station', site_no), color = Status), size = 2, alpha=.8, #inherit.aes = F) +
+#  scale_colour_manual(values = cols, drop = FALSE) +
+#  theme_void() +
+#  theme(plot.title = element_text(size = 20, face="bold", hjust=.5),
+#        plot.subtitle = element_text(size = 8, hjust=.5, margin=margin(2, 1, 5, 1))) +
+#  labs(title = "Nashville", subtitle = "USGS River Gauge Sites") +
+#  labs(caption=str_c("Last update: ", time,  " Central Time.")) +
+#  theme(legend.position="bottom")
+
+#}
+  
+#plotly::ggplotly(map)
+
+
+#cbin<-colorBin("Blues",3, site_coords$Status,na.color = "#808080",pretty=F)
+
+#cnum<-colorNumeric(c("green","yellow","red"), domain=site_coords$ecoli)
+
+cfac<-colorFactor(c("green","yellow","red"), levels=c("Safe","Caution","Warning"),na.color = "grey", ordered=F)
+
+
+
+#p<-leaflet() %>% 
+#  setView(lng = -86.791425, lat = 36.08, zoom = 10) %>%
+#  addTiles() %>%
+#  addCircleMarkers(data=site_coords[c(1:4,6:9),], lat=~Latitude, lng= ~Longitude, color = ~cfac(Forecast$Status))
+
+#p
+
+Forecast2<-Forecast
+
+
+
+#Forecast<-Forecast2
+
+Forecast %<>% 
+  st_as_sf(coords = c("Longitude", "Latitude")) %>% 
+  st_sf(crs = 84)
+
+Forecast<-Forecast %>% 
+  mutate(popup = paste("<b>Location: </b>", Forecast$Location, 
+                       "<br/>",
+                       "<b>E. coli:</b>", Forecast$ecoli,
+                       "<br/>",
+                       "<b>Status:</b>", Forecast$Status,
+                       "<br/>"))
+
+
+p<-leaflet() %>% 
+  addTiles() %>% 
+  addProviderTiles(providers$OpenStreetMap, group = 'Open SM')  %>%
+  addProviderTiles(providers$Stamen.Toner, group = 'Toner')  %>%
+  addProviderTiles(providers$Esri.NatGeoWorldMap, group = 'NG World') %>%
+  addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
+  setView(lng = -86.791425, lat = 36.08, zoom = 10) %>% 
+  addCircleMarkers(data = Forecast ,popup = ~popup, color=~cfac(Forecast$Status),fill=T, stroke=T, fillOpacity = 1.0) %>%
+  addWMSTiles(
+    "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
+    layers = "nexrad-n0r-900913", 
+    options = WMSTileOptions(format = "image/png", transparent = TRUE),
+    attribution = "Weather data © 2012 IEM Nexrad") %>%
+  addLegend('topright', pal = cfac, values = as.character(c("Safe","Caution","Warning","Data Unavailable")),
+            title = 'Public Safety Status',
+            opacity = 1) %>%
+  addLegend("bottomright", colors = c( 'blue', 'green', 'yellow', 'orange', "red"), values = c(5,15,25,35,45,55,65),
+            title = "Current Precipitation",
+            labels = c("Less Dense", "", "","", "More Dense"),
+            opacity = 1) 
+
+
+p
+
+
+
+```
+
+You can click on the site dots on the map to get more information!
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, fig.keep='all'}
+#site_coords[c(1:3,7:8,43:44)]
+
+Forecast2<-data.frame(Forecast2,Visualization="")
+
+row.names(Forecast2)<-NULL
+
+ForecastRecord<-Forecast2
+
+Forecast2$dateTime<-format(as.Date(Forecast2$dateTime, format="%Y-%m-%d"), "%B %d %Y")
+
+
+t<-c("Location","Date","Water Temperature (C)","pH","Precipitation (in)","River Flow (cfs)","Water Height (ft)", "Specific Conductivity" ,"Dissolved Oxygen (mg/L)", "E. coli (MPN/100 mL)", "Status")
+
+names(Forecast2)[c(2,4:5,7,11,13,15,17,19,24:25)]<-t
+
+names(ForecastRecord)[c(2,4:5,7,11,13,15,17,19,24:25)]<-t
+
+
+
+
+
+
+
+
+
+
+
+#knitr::kable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], caption = "Sampling Locations and Data", align = "llccccccrr")
+
+
+
+
+
+
+
+
+
+
+
+
+Forecast2[c(2,4:5,7,11,13,15,17,19,24:25,26)] %>%
+  kbl(caption = "Sampling Locations and Results") %>%
+  #kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped","condensed"),
+                font_size = 12, full_width=F,position = "left", html_font = "Cambria") %>%
+  column_spec(12, image = spec_pointrange(
+    x = Forecast2$`E. coli (MPN/100 mL)`, 
+    xmin = Forecast2$`E. coli (MPN/100 mL)`-0.1*Forecast2$`E. coli (MPN/100 mL)`, 
+    xmax = Forecast2$`E. coli (MPN/100 mL)`+0.1*Forecast2$`E. coli (MPN/100 mL)`, 
+    vline = 235))%>% 
+  column_spec(1, border_right = T) %>%
+  column_spec(11,bold=T) %>%
+  column_spec(2,width="2cm")
+  
+
+
+
+
+```
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, fig.keep='all'}
+
+#Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)] %>%
+#  kbl(caption = "Sampling Locations and Results") %>%
+#  #kable_classic("striped" ,full_width = T, html_font = "Cambria") %>%
+#  kable_styling(bootstrap_options = c("striped","condensed"),full_width=F,position = "left", 
+#                font_size = 12, html_font = "Cambria") %>% 
+#  column_spec(1, border_right = T) %>%
+#  column_spec(11,bold=T)
+
+
+
+#TrackForecast<-ForecastRecord[c(1,2,3,4:5,7,9,11,13,15,17,19,21,22,23,24,25)] #Activate to reset Forecast Tracker
+
+#write.csv(TrackForecast,"TrackForecast.csv")
+
+
+#library(readr)
+#TrackForecast <- read_csv("TrackForecast.csv", 
+#    col_types = cols(...1 = col_skip(), dateTime = col_datetime(format = "%Y-%m-%d %H:%M:%S"), 
+#        `Temperature, water` = col_number(), 
+#        pH = col_number(), `Inorganic nitrogen (nitrate and nitrite)` = col_number(), 
+#        Precipitation = col_number(), `Stream flow, mean. daily` = col_number(), 
+#        `Height, gage` = col_number(), `Specific conductance` = col_number(), 
+#        Oxygen = col_number(), ecoli = col_number()))
+
+TrackForecast <- read_csv("TrackForecast.csv", 
+    col_types = cols(...1 = col_skip(), Date = col_datetime(format = "%Y-%m-%d %H:%M:%S"), 
+        `Water Temperature (C)` = col_number(), 
+        pH = col_number(), Inorganic.nitrogen..nitrate.and.nitrite. = col_number(), 
+        `Precipitation (in)` = col_number(), 
+        `River Flow (cfs)` = col_number(), 
+        `Water Height (ft)` = col_number(), 
+        `Specific Conductivity` = col_number(), 
+        `Dissolved Oxygen (mg/L)` = col_number(), 
+        Latitude = col_character(), Longitude = col_character(), 
+        `E. coli (MPN/100 mL)` = col_number()))
+
+
+
+
+TrackForecast[c((nrow(TrackForecast) + 1):(nrow(TrackForecast) + nrow(ForecastRecord))),] <- ForecastRecord[c(1,2,3,4:5,7,9,11,13,15,17,19,21,22,23,24,25)]
+
+
+write.csv(TrackForecast,"TrackForecast.csv")
+
+
+CSSample <- read_csv("CSSample.csv", col_types = cols(Date = col_date(format = "%m/%d/%Y"), 
+    Time = col_time(format = "%H:%M"), Sample_Number = col_skip(), 
+    `Turbidity (NTUs)` = col_number(), `E. coli Sample (MPN/100 mL)` = col_number()))
+
+CSSample$Date<-format(as.Date(CSSample$Date, format="%Y-%m-%d"))
+
+
+TrackForecast$Time <- format(as.POSIXct(TrackForecast$Date), format = "%H:%M:%S") 
+TrackForecast$Date<-format(as.Date(TrackForecast$Date, format="%Y-%m-%d"))
+
+ForecastResults<-merge(CSSample,TrackForecast, by=c("Date","Location"))
+
+
+
+data.table::setnames(ForecastResults, old = c("Time.x","Time.y","E. coli (MPN/100 mL)"),
+                     new = c("SampleTime","PredictionTime","E. coli Prediction (MPN/100 mL)"))
+
+write.csv(ForecastResults[,c(1,2,6:15,4,5,3,19,21,20)], "ForecastResults.csv")
+
+#ForecastResults[,c(1,2,6:15,4,5,3,19,21,20)]
+
+```
+
+
+
+
+
+
+
+
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide'}
+
+formattable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], list(
+  "River Flow (cfs)" = color_tile("white", "blue"),
+  "E. coli (MPN/100 mL)" = color_tile("white", "red"),
+  Status = formatter("span", style = x ~ formattable::style(font.weight="bold", color = ifelse(x == "Safe", "green", 
+    ifelse(x == "Caution", "yellow", "red"))))
+))
+
+
+
+```
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
+
+
+
+
+#DT::datatable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)],rownames=F, fillContainer = getOption("DT.fillContainer", NULL), options = list(pageLength = 8))
+
+
+
+formattable(TrackForecast, list(
+  "River Flow (cfs)" = color_tile("white", "blue"),
+  "E. coli (MPN/100 mL)" = color_tile("white", "red"),
+  Status = formatter("span", style = x ~ formattable::style(font.weight="bold", color = ifelse(x == "Safe", "green", 
+    ifelse(x == "Caution", "yellow", "red"))))
+))
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all'}
+
+#p <- plotly::ggplotly(p)
+widget_file_size <- function(p) {
+  d <- tempdir()
+  withr::with_dir(d, htmlwidgets::saveWidget(p, "map.html"))
+  f <- file.path(d, "map.html")
+  mb <- round(file.info(f)$size / 1e6, 3)
+  message("File is: ", mb," MB")
+}
+widget_file_size(p)
+
+#widget_file_size(partial_bundle(p))
+
+
+
+saveWidget(frameableWidget(p), "map.html", selfcontained = T, libdir = "lib")
+
+
+
+
+```

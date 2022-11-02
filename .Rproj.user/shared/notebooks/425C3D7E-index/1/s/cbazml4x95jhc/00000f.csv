@@ -1,0 +1,7 @@
+"0",""
+"0","formattable(Forecast2[c(2,4:5,7,11,13,15,17,19,24:25)], list("
+"0","  ""River Flow (cfs)"" = color_tile(""white"", ""blue""),"
+"0","  ""E. coli (MPN/100 mL)"" = color_tile(""white"", ""red""),"
+"0","  Status = formatter(""span"", style = x ~ formattable::style(font.weight=""bold"", color = ifelse(x == ""Safe"", ""green"", "
+"0","    ifelse(x == ""Caution"", ""yellow"", ""red""))))"
+"0","))"

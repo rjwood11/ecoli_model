@@ -1,0 +1,153 @@
+####    E. coli Mapping on the Harpeth - 2020 Water Quality Study   ####
+####                                                                ####
+########################################################################
+
+#### Superimpose over google maps####
+
+library(ggmap)
+library(RgoogleMaps)
+library(rgdal)
+library(ggplot2)
+library(rgeos)
+library(raster)
+library(zeallot)
+library(backports)
+library(RColorBrewer)
+library(wesanderson)
+
+#### Reading in Google Map #####
+
+register_google(key = "AIzaSyA5zhMop9hkQvSkupfKjWjL9f9iqOJQ09A")
+
+CenterOfMap<-geocode("36.021830, -86.995414")
+
+Harpeth <- get_map(c(lon=CenterOfMap$lon, 
+                     lat=CenterOfMap$lat),zoom = 11, 
+                   maptype = "toner", source = "stamen")
+
+Harpeth <- get_map(c(lon=CenterOfMap$lon, 
+                     lat=CenterOfMap$lat),zoom = 10, maptype="toner", source="stamen")
+
+HarpethMap <- ggmap(Harpeth, extent="normal")
+
+HarpethMap #Google Map
+
+
+#### Add in SHape Files for River ####
+
+HarpethMap2<-HarpethMap+geom_polygon(data = HarpethHUC8_df, aes(x = long, y = lat, group = group),size=0.01, alpha=1, color="black", fill=NA)
+
+HarpethMap2<-HarpethMap2+geom_line(data = HarpethMainStem_df, aes(x = long, y = lat, group = group),size=1, color="blue")
+
+HarpethMap2<-HarpethMap2+geom_polygon(data = HarpethRiverPoly_df, aes(x = long, y = lat, group = group),size=1, color="blue")
+
+HarpethMap2<-HarpethMap2+geom_line(data = HarpethStreams_df, aes(x = long, y = lat, group = group),size=0.01, alpha=0.3, color="blue")
+
+HarpethMap2
+
+#### Plot E. coli Data on Map ####
+
+HarpethMap2 + geom_point(aes(x = Longitude, y = Latitude, color=Ecoli, size=Ecoli), data = HR, alpha = .7)+
+  theme(legend.position="right") + 
+  scale_color_gradient(low = "white", high = "red",na.value=NA,name="Total Phosphorus (mg/L)")+ 
+  guides(size = guide_legend(reverse=T))+
+  scale_size_continuous(name  ="Total Phosphorus (mg/L)")
+
+colnames(HR)[5] <- "Ecoli"
+colnames(HR)[13] <- "RA"
+
+#### Basic Plots with E. coli Data ####
+
+HR1<-HR
+
+
+Hwy100 <- subset(HR, Location=="Hwy 100 Boat Launch")
+Natchez <- subset(HR, Location=="Natchez Trace")
+Moran <- subset(HR, Location=="Moran Rd. Bridge")
+Dam <- subset(HR, Location=="Lowhead Dam")
+Coley <- subset(HR, Location=="Coley Davis")
+Hwy70<-subset(HR, Location=="Hwy 70")
+
+plot(Hwy100$Date, Hwy100$Ecoli, type="b", ylab="E. coli at Hwy 100 Bridge (MPN/100 mL)", xlab="Date")
+abline(h=640,col="red")
+abline(h=126, col="blue")
+#lines(Hwy100$Date, Hwy100$RA, type="b", col="green")
+
+plot(Natchez$Date, Natchez$Ecoli, type="b")
+abline(h=941,col="red")
+#abline(h=126, col="green")
+#lines(Hwy100$Date, Natchez$RA, type="b", col="green")
+
+plot(Moran$Date, Moran$Ecoli, type="b",ylab="E. coli at Moran Road Bridge (MPN/100 mL)", xlab="Date")
+abline(h=941,col="red")
+abline(h=126, col="blue")
+#lines(Hwy100$Date, Moran$RA, type="b", col="green")
+
+plot(Dam$Date, Dam$Ecoli, type="b",ylab="E. coli at Eastern Flank Boat Launch (MPN/100 mL)", xlab="Date")
+abline(h=941,col="red")
+abline(h=126, col="blue")
+#lines(Hwy100$Date, Dam$RA, type="b", col="green")
+
+plot(Coley$Date, Coley$Ecoli, type="b", ylim=c(0,1500))
+abline(h=640,col="red")
+#abline(h=126, col="green")
+#lines(Coley$Date, Coley$RA, type="b", col="green")
+
+
+
+####Graphs for Map####
+
+plot(Hwy100$Date, Hwy100$Ecoli, type="b", ylab="E. coli (MPN/100 mL)", xlab="Date",
+     main="E. coli levels at Hwy 100 Canoe Access on the Harpeth State Scenic River")
+abline(h=640,col="red")
+#abline(h=126, col="blue")
+#lines(Hwy100$Date, Hwy100$RA, type="b", col="green")
+#State threshold for recreational use
+
+plot(Natchez$Date, Natchez$Ecoli, type="b",ylab="E. coli (MPN/100 mL)", xlab="Date")
+abline(h=941,col="red")
+#abline(h=126, col="green")
+#lines(Hwy100$Date, Natchez$RA, type="b", col="green")
+
+plot(Moran$Date, Moran$Ecoli, type="b",ylab="E. coli (MPN/100 mL)", xlab="Date")
+abline(h=941,col="red")
+#abline(h=126, col="blue")
+#lines(Hwy100$Date, Moran$RA, type="b", col="green")
+
+plot(Dam$Date, Dam$Ecoli, type="b",ylab="E. coli (MPN/100 mL)", xlab="Date")
+abline(h=941,col="red")
+#abline(h=126, col="blue")
+#lines(Hwy100$Date, Dam$RA, type="b", col="green")
+
+plot(Coley$Date, Coley$Ecoli, type="b", ylim=c(0,1500), ylab="E. coli (MPN/100 mL)", xlab="Date")
+abline(h=640,col="red")
+#abline(h=126, col="green")
+#lines(Coley$Date, Coley$RA, type="b", col="green")
+
+plot(Hwy70$Date, Hwy70$Ecoli, type="b", ylab="E. coli (MPN/100 mL)", xlab="Date")
+abline(h=640,col="red")
+#abline(h=126, col="green")
+#lines(Coley$Date, Coley$RA, type="b", col="green")
+
+
+Coley[1,1]
+
+x<-Moran$Ecoli
+y<-Moran$Date
+
+x<-Hwy100$Ecoli
+y<-Hwy100$Date
+
+
+p<-ggplot(Hwy100, aes(y, x)) +
+  geom_line(size=1)+geom_point(size=2)
+p<-p + geom_abline(aes(intercept=126, slope=0, lty='TDEC: Geometric Mean = 126 MPN/100 mL'), col = "red")
+p<-p + geom_abline(aes(intercept=640, slope=0, lty='TDEC: Indvidiual Sample = 640 MPN/100 mL'), col = "red")
+p <- p + theme(legend.position = c(0.65, 0.8))
+p<-p + labs(y = "E. coli (MPN/100 mL)",
+         x = "Date",
+         colour = "Parameter") + ggtitle("E. coli Levels on Harpeth at Moran Rd. Bridge")
+p<-p+labs(fill="State")
+p
+
+

@@ -1,0 +1,17 @@
+str(Dam)
+str(HR.4d)
+
+# reformat date
+Dam$Date <- as.POSIXct(Dam$Date, format="%Y-%m-%d")
+
+HR.4d$Date <- as.POSIXct(HR.4d$Date, format="%Y-%m-%d")
+
+HR.d <- merge(Dam,HR.4d,by=c("Date"),all.x=T)
+
+plot(HR.d$Ecoli, HR.d$X_00060_00003, ylab="River Discharge (cfs)", xlab="E. coli (MPN)", main="Relationship between River Discharge and E. coli")
+
+reg<-lm(HR.d$X_00060_00003 ~ HR.d$Ecoli)
+abline(reg, col="blue")
+abline(v=941, col="red")
+abline(v=126, col="green")
+abline(v=235, col="purple")

@@ -1,0 +1,4 @@
+"0","library(tidyverse)"
+"2","Error: package or namespace load failed for ‘tidyverse’ in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
+ namespace ‘rlang’ 1.0.2 is already loaded, but >= 1.0.5 is required
+"
