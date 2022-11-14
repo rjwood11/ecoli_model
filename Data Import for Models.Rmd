@@ -13,7 +13,7 @@ Harpeth Conservancy's E. coli models are built using weather and river flow data
 
 library(tidyverse)
 library(dataRetrieval)
-
+library(rnoaa)
 
 
 ```
@@ -52,7 +52,7 @@ names(Daily)
 
 ```{r weather data, echo=FALSE}
 
-
+ncdc(datasetid = 'PRECIP_HLY', locationid = 'ZIP:28801', datatypeid = 'HPCP', startdate = '2013-10-01', enddate = '2013-12-01', limit = 5)
 
 
 ```
