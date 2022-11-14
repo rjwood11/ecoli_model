@@ -63,7 +63,6 @@ names(Daily)
 # Top Left - 36.403176, -87.346973
 
 
-#register_google(key = "AIzaSyATURJY7s7jrJcZQuPAcgPHsq06NbyQjQE", write = TRUE)
 
 
 
