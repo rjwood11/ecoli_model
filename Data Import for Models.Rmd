@@ -20,6 +20,8 @@ library(dplyr)
 library(ggmap)
 library(ggplot2)
 library(zoo)
+library(cropgrowdays)
+library(xlsx)
 
 ```
 
@@ -51,8 +53,19 @@ names(Daily)
 
 ```
 
-## Including Plots
+```{r sampling data, echo=FALSE}
 
+library(readr)
+CSSample <- read_csv("CSSample.csv", col_types = cols(Date = col_date(format = "%m/%d/%Y"), 
+    Time = col_skip(), `Turbidity (NTUs)` = col_number(), 
+    `E. coli Sample (MPN/100 mL)` = col_number()))
+View(CSSample)
+
+names(CSSample)
+names(CSSample) [3]<-"Turb"
+names(CSSample) [4]<-"Ecoli"
+
+```
 
 
 ```{r weather data, echo=FALSE}
@@ -106,13 +119,21 @@ Weather1 <- Weather1 %>%
          prev_five_rainfall = lag(prev_five_rainfall)) %>% 
   filter(Date >= min(Weather1$Date) & Date <= max(Weather1$Date))
 
+#Create sine function for DOY
 
+# y(t)=sin(B(x−C))
 
+B = 0.01721420632
+C = 81.75
+x = day_of_year(Weather1$Date)
 
+x<-sin(B*(x-C))
 
+#x
 
+#plot(Weather$Date,x)
 
-
+Weather1$sinDOY<-x
 
 
 
@@ -163,8 +184,11 @@ Whites_Creek<-l[[13]] #Whites Creek
 
 Whitsett<-l[[14]] #Whitsett Park
 
+```
 
+Weather data is compiled and additional variables added (i.e. previous two days of precipitation etc.)
 
+```{r merge data, echo=FALSE}
 #Hwy100
 
 str(H100)
@@ -179,9 +203,84 @@ total$ID<-c(1:length(total$Date))
 
 total <- total %>% relocate(ID, .before = Date)
 
-total <- total %>% relocate('E. coli Sample (MPN/100 mL)', .after = ID)
+total <- total %>% relocate(Ecoli, .after = ID)
 
 write.csv(total,"Hwy100.csv")
+
+
+#Lewisburg Pike - NEED TO FIX - two discharge gauges at this location
+
+str(LB_Pike)
+str(Lewisburg_Pike)
+
+total <- merge(Lewisburg_Pike,LB_Pike,by="Date")
+
+total <- merge(total,Weather1,by="Date") 
+
+total$ID<-NA
+total$ID<-c(1:length(total$Date))
+
+total <- total %>% relocate(ID, .before = Date)
+
+total <- total %>% relocate(Ecoli, .after = ID)
+
+write.csv(total,"Lewisburg_Pike.csv")
+
+#Hwy70
+
+str(H70)
+str(Hwy_70)
+
+total <- merge(Hwy_70,H70,by="Date")
+
+total <- merge(total,Weather1,by="Date") 
+
+total$ID<-NA
+total$ID<-c(1:length(total$Date))
+
+total <- total %>% relocate(ID, .before = Date)
+
+total <- total %>% relocate(Ecoli, .after = ID)
+
+write.csv(total,"Hwy70.csv")
+
+#Moran
+
+str(Moran)
+str(Hwy_100)
+
+total <- merge(Hwy_100,Moran,by="Date")
+
+total <- merge(total,Weather1,by="Date") 
+
+total$ID<-NA
+total$ID<-c(1:length(total$Date))
+
+total <- total %>% relocate(ID, .before = Date)
+
+total <- total %>% relocate(Ecoli, .after = ID)
+
+write.csv(total,"Moran.csv")
+
+#Mill CreekGW
+
+str(Mill_Creek)
+str(Mill_CreekGW)
+
+total <- merge(Mill_Creek,Mill_CreekGW,by="Date")
+
+total <- merge(total,Weather1,by="Date") 
+
+total$ID<-NA
+total$ID<-c(1:length(total$Date))
+
+total <- total %>% relocate(ID, .before = Date)
+
+total <- total %>% relocate(Ecoli, .after = ID)
+
+write.csv(total,"MillCreekGW.xls")
+
+write.xlsx(x = total, file = "MillCreekGW.xls")
 
 
 ```
