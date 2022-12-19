@@ -278,7 +278,7 @@ total <- total %>% relocate(ID, .before = Date)
 
 total <- total %>% relocate(Ecoli, .after = ID)
 
-write.csv(total,"MillCreekGW.xls")
+write.csv(total,"MillCreekGW.csv")
 
 write.xlsx(x = total, file = "MillCreekGW.xls")
 
