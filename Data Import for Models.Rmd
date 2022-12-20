@@ -21,7 +21,7 @@ library(ggmap)
 library(ggplot2)
 library(zoo)
 library(cropgrowdays)
-library(xlsx)
+#library(xlsx)
 
 ```
 
@@ -280,7 +280,7 @@ total <- total %>% relocate(Ecoli, .after = ID)
 
 write.csv(total,"MillCreekGW.csv")
 
-write.xlsx(x = total, file = "MillCreekGW.xls")
+#write.xlsx(x = total, file = "MillCreekGW.xls")
 
 
 ```
