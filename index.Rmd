@@ -375,18 +375,19 @@ p<-leaflet() %>%
   addProviderTiles(providers$Esri.NatGeoWorldMap) %>%
   setView(lng = -86.791425, lat = 36.08, zoom = 10) %>% 
   addCircleMarkers(data = Forecast ,popup = ~popup, color=~cfac(Forecast$Status),fill=T, stroke=T, fillOpacity = 1.0) %>%
-  addWMSTiles(
-    "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
-    layers = "nexrad-n0r-900913", 
-    options = WMSTileOptions(format = "image/png", transparent = TRUE),
-    attribution = "Weather data © 2012 IEM Nexrad") %>%
+  #addWMSTiles(
+   #"http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
+    #layers = "nexrad-n0r-900913", 
+    #options = WMSTileOptions(format = "image/png", transparent = TRUE),
+    #attribution = "Weather data © 2012 IEM Nexrad") %>%
   addLegend('topright', pal = cfac, values = as.character(c("Safe","Caution","Warning","Data Unavailable")),
             title = 'Public Safety Status',
-            opacity = 1) %>%
-  addLegend("bottomright", colors = c( 'blue', 'green', 'yellow', 'orange', "red"), values = c(5,15,25,35,45,55,65),
-            title = "Current Precipitation",
-            labels = c("Less Dense", "", "","", "More Dense"),
             opacity = 1) 
+#%>%
+  #addLegend("bottomright", colors = c( 'blue', 'green', 'yellow', 'orange', "red"), values = c(5,15,25,35,45,55,65),
+            #title = "Current Precipitation",
+            #labels = c("Less Dense", "", "","", "More Dense"),
+            #opacity = 1) 
 
 
 p
