@@ -283,6 +283,69 @@ write.csv(total,"MillCreekGW.csv")
 #write.xlsx(x = total, file = "MillCreekGW.xls")
 
 
+
+
+#Mill Whitsett Park
+
+str(Whitsett)
+str(Mill_Creek)
+
+total <- merge(Mill_Creek,Whitsett,by="Date")
+
+total <- merge(total,Weather1,by="Date") 
+
+total$ID<-NA
+total$ID<-c(1:length(total$Date))
+
+total <- total %>% relocate(ID, .before = Date)
+
+total <- total %>% relocate(Ecoli, .after = ID)
+
+write.csv(total,"Whitsett.csv")
+
+
+
+
+#Jackson Blvd. - Richland Creek
+
+str(Jackson)
+str(Richland_Creek)
+
+total <- merge(Richland_Creek,Jackson,by="Date")
+
+total <- merge(total,Weather1,by="Date") 
+
+total$ID<-NA
+total$ID<-c(1:length(total$Date))
+
+total <- total %>% relocate(ID, .before = Date)
+
+total <- total %>% relocate(Ecoli, .after = ID)
+
+write.csv(total,"Jackson.csv")
+
+
+
+#Jackson Blvd. - Richland Creek
+
+str(RCreek)
+str(Richland_Creek)
+
+total <- merge(Richland_Creek,RCreek,by="Date")
+
+total <- merge(total,Weather1,by="Date") 
+
+total$ID<-NA
+total$ID<-c(1:length(total$Date))
+
+total <- total %>% relocate(ID, .before = Date)
+
+total <- total %>% relocate(Ecoli, .after = ID)
+
+write.csv(total,"McCabe.csv")
+
+
+
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
