@@ -326,7 +326,7 @@ write.csv(total,"Jackson.csv")
 
 
 
-#Jackson Blvd. - Richland Creek
+#McCabe Park - Richland Creek
 
 str(RCreek)
 str(Richland_Creek)
